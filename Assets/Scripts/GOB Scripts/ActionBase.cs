@@ -51,4 +51,10 @@ public abstract class ActionBase
             _goalsatified.Add(goal, value);
         }
     }
+
+    // executes the action
+    public abstract void Execute(float deltatime);
+
+    // get action name (for debugging)
+    public override abstract string ToString();
 }

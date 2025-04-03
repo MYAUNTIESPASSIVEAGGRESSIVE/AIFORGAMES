@@ -93,6 +93,11 @@ public class AI : MonoBehaviour
     // e.g. agentScript.MoveTo(enemy);
     private AgentActions _agentActions;
 
+    [Header("Team ID")]
+    [SerializeField] int TeamID;
+
+    public BlackBoard TeamBlackboard {  get; protected set; }
+
 
     // Use this for initialization
     void Start()
@@ -103,7 +108,7 @@ public class AI : MonoBehaviour
         _agentSenses = GetComponentInChildren<Sensing>();
         _agentInventory = GetComponentInChildren<InventoryController>();
 
-
+        TeamBlackboard = BlackboardManager.Instance.GetSharedBlackBoard(TeamID);
     }
 
     // Update is called once per frame

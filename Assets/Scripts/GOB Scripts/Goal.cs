@@ -90,4 +90,9 @@ public class GoalBase
         get { return _Value; }
         set { _Value = value; }
     }
+
+    public float HighValue
+    {
+        get { return _curveFunction.Invoke(_LowerRange, _UpperRange, _Value); }
+    }
 }
