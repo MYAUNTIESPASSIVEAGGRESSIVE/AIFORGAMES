@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GetEnemyFlag : MonoBehaviour
+public class GetEnemyFlag : ActionBase
 {
-    // Start is called before the first frame update
-    void Start()
+    public GetEnemyFlag(AI teamMember) : base(teamMember)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Execute(float deltaTime)
     {
-        
+
+    }
+
+    public override string ToString()
+    {
+        return "Get Enemy Flag";
     }
 }

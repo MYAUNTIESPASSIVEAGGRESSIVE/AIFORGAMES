@@ -10,11 +10,12 @@ public class BlackBoard
     Dictionary<string, object> GenericValue = new Dictionary<string, object>();
 }
 
+// creates a singleton for the manager and holds a function to get the teams blackboard within the AI
 public class BlackboardManager : MonoBehaviour
 {
     public static BlackboardManager Instance { get; private set; } = null;
 
-    Dictionary<int, BlackBoard> SharedBlackBoard = new Dictionary<int, BlackBoard>();
+    [SerializeField] Dictionary<int, BlackBoard> SharedBlackBoard = new Dictionary<int, BlackBoard>();
 
     // ensures Blackboard Manager only has 1 instance.
     private void Awake()

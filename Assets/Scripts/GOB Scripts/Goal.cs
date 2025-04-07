@@ -2,15 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GoalLabels
-{
-    KeepHealth,
-    Survivability,
-    GetFlag,
-    ReturnFlag,
-    NumGoals
-}
-
 public static class CurveFunctions
 {
     private static float _lowerRange = 0.0f;
@@ -61,6 +52,8 @@ public delegate float CurveFunction(float lowerRangeVal, float upperRangeVal, fl
 // goal logic storing the value of the goal and curve function.
 public class GoalBase
 {
+    public int GoalIndex;
+
     private float _LowerRange;
     private float _UpperRange;
 
@@ -68,21 +61,33 @@ public class GoalBase
 
     CurveFunction _curveFunction;
 
-    public GoalLabels _labels;
-
-    public GoalBase(GoalLabels type, float val, float lowerValueRange, float upperValueRange, CurveFunction curveFunction)
+    //Gets the goals values
+    public GoalBase(float val, SO_Goals GoalSO)
     {
-        _labels = type;
-        _LowerRange = lowerValueRange;
-        _UpperRange = upperValueRange;
+        GoalIndex = GoalSO.GoalIndex;
+        _LowerRange = GoalSO.GoalBaseValue;
+        _UpperRange = GoalSO.GoalFinalValue;
 
         _Value = val;
-        _curveFunction = curveFunction;
-    }
 
-    public GoalLabels Type
-    {
-        get { return _labels; }
+        switch(GoalSO.GoalCurveFunction)
+        {
+            case SO_Goals.GoalCurve.Step:
+                _curveFunction = CurveFunctions.StepAtUpper;
+                break;
+
+            case SO_Goals.GoalCurve.Linear:
+                _curveFunction = CurveFunctions.Linear;
+                break;
+
+            case SO_Goals.GoalCurve.Logarithmic:
+                _curveFunction= CurveFunctions.Logarithmic;
+                break;
+
+            case SO_Goals.GoalCurve.ReverseLinear:
+                _curveFunction = CurveFunctions.ReverseLinear;
+                break;
+        }
     }
 
     public float BaseValue
@@ -91,7 +96,7 @@ public class GoalBase
         set { _Value = value; }
     }
 
-    public float HighValue
+    public float FinalValue
     {
         get { return _curveFunction.Invoke(_LowerRange, _UpperRange, _Value); }
     }

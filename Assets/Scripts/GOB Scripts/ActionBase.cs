@@ -8,7 +8,7 @@ public abstract class ActionBase
     protected AI TeamMember;
 
     // dictionary of goals of which the action satisfies.
-    protected Dictionary<GoalLabels, float> _goalsatified;
+    protected Dictionary<int, float> _goalsatified;
 
     // tracking time and completion of action.
     protected float timer = 0.0f;
@@ -17,7 +17,7 @@ public abstract class ActionBase
 
     public ActionBase(AI teamMember)
     {
-        _goalsatified = new Dictionary<GoalLabels, float>();
+        _goalsatified = new Dictionary<int, float>();
         TeamMember = teamMember;
         timer = 0.0f;
         finished = false;
@@ -30,25 +30,25 @@ public abstract class ActionBase
         set { finished = value; }
     }
 
-    public float EvaluateGoalSatisfaction(GoalLabels goal)
+    public float EvaluateGoalSatisfaction(int ID)
     {
-        if(_goalsatified.ContainsKey(goal))
+        if(_goalsatified.ContainsKey(ID))
         {
-            return _goalsatified[goal];
+            return _goalsatified[ID];
         }
         
         return 0.0f;
     }
 
-    public void SetGoalSatifiaction(GoalLabels goal, float value)
+    public void SetGoalSatifiaction(int ID, float value)
     {
-        if (_goalsatified.ContainsKey(goal))
+        if (_goalsatified.ContainsKey(ID))
         {
-            _goalsatified[goal] = value;
+            _goalsatified[ID] = value;
         }
         else
         {
-            _goalsatified.Add(goal, value);
+            _goalsatified.Add(ID, value);
         }
     }
 

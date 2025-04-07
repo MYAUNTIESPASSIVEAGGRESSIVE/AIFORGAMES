@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 
 /*****************************************************************************************************************************
@@ -95,9 +96,21 @@ public class AI : MonoBehaviour
 
     [Header("Team ID")]
     [SerializeField] int TeamID;
+    
+    [Header("Goals")]
+    public List<SO_Goals> Goals = new List<SO_Goals>();
+    private List<GoalBase> _goals = new List<GoalBase>();
 
     public BlackBoard TeamBlackboard {  get; protected set; }
 
+    private GOB_AI _AI = new GOB_AI();
+
+    /*
+    public GOB_AI AI
+    {
+        get { return _AI; }
+    }
+    */
 
     // Use this for initialization
     void Start()
@@ -109,6 +122,19 @@ public class AI : MonoBehaviour
         _agentInventory = GetComponentInChildren<InventoryController>();
 
         TeamBlackboard = BlackboardManager.Instance.GetSharedBlackBoard(TeamID);
+    }
+
+    private void Awake()
+    {
+        // creating a new goal using the Scriptable Object and AgentData.
+        _goals.Add(new GoalBase(_agentData.CurrentHitPoints, Goals[0]));
+        _goals.Add(new GoalBase(_agentData.CurrentHitPoints, Goals[1]));
+
+        // for each goal within the goal base list it adds it to the AI list.
+        foreach (GoalBase goal in _goals)
+        {
+            _AI.AddGoal(goal);
+        }
     }
 
     // Update is called once per frame
