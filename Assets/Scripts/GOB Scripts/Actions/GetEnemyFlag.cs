@@ -10,7 +10,12 @@ public class GetEnemyFlag : ActionBase
 
     public override void Execute(float deltaTime)
     {
+        
+    }
 
+    private bool NearFlag(AI teamMember)
+    {
+        return false;
     }
 
     public override string ToString()

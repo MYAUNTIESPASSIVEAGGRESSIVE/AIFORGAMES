@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class CurveFunctions
@@ -61,7 +62,7 @@ public class GoalBase
 
     CurveFunction _curveFunction;
 
-    //Gets the goals values
+    //Takes the values from the SO and puts them into the GoalBase Class.
     public GoalBase(float val, SO_Goals GoalSO)
     {
         GoalIndex = GoalSO.GoalIndex;
@@ -81,7 +82,7 @@ public class GoalBase
                 break;
 
             case SO_Goals.GoalCurve.Logarithmic:
-                _curveFunction= CurveFunctions.Logarithmic;
+                _curveFunction = CurveFunctions.Logarithmic;
                 break;
 
             case SO_Goals.GoalCurve.ReverseLinear:

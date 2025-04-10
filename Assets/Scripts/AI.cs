@@ -99,21 +99,18 @@ public class AI : MonoBehaviour
     
     [Header("Goals")]
     public List<SO_Goals> Goals = new List<SO_Goals>();
-    private List<GoalBase> _goals = new List<GoalBase>();
 
     public BlackBoard TeamBlackboard {  get; protected set; }
 
     private GOB_AI _AI = new GOB_AI();
 
-    /*
-    public GOB_AI AI
+    public GOB_AI Gob_AI
     {
         get { return _AI; }
     }
-    */
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         // Initialise the accessable script components
         _agentData = GetComponent<AgentData>();
@@ -122,19 +119,17 @@ public class AI : MonoBehaviour
         _agentInventory = GetComponentInChildren<InventoryController>();
 
         TeamBlackboard = BlackboardManager.Instance.GetSharedBlackBoard(TeamID);
-    }
 
-    private void Awake()
-    {
         // creating a new goal using the Scriptable Object and AgentData.
-        _goals.Add(new GoalBase(_agentData.CurrentHitPoints, Goals[0]));
-        _goals.Add(new GoalBase(_agentData.CurrentHitPoints, Goals[1]));
+        GoalBase KeepHealth = new(_agentData.CurrentHitPoints, Goals[0]);
+        _AI.AddGoal(KeepHealth);
 
-        // for each goal within the goal base list it adds it to the AI list.
-        foreach (GoalBase goal in _goals)
-        {
-            _AI.AddGoal(goal);
-        }
+        Debug.Log("Added to List " + KeepHealth.ToString());
+
+        GoalBase Survivability = new(_agentData.CurrentHitPoints, Goals[1]);
+        _AI.AddGoal(Survivability);
+
+        Debug.Log("Added to List " + Survivability.ToString());
     }
 
     // Update is called once per frame

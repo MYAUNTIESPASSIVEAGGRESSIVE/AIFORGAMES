@@ -13,9 +13,9 @@ public class BlackBoard
 // creates a singleton for the manager and holds a function to get the teams blackboard within the AI
 public class BlackboardManager : MonoBehaviour
 {
-    public static BlackboardManager Instance { get; private set; } = null;
+    public static BlackboardManager Instance { get; private set; }
 
-    [SerializeField] Dictionary<int, BlackBoard> SharedBlackBoard = new Dictionary<int, BlackBoard>();
+    Dictionary<int, BlackBoard> SharedBlackBoard = new Dictionary<int, BlackBoard>();
 
     // ensures Blackboard Manager only has 1 instance.
     private void Awake()

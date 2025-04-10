@@ -539,6 +539,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0a9694fea256c4a83566fa58bc8e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TeamID: 2
+  Goals:
+  - {fileID: 11400000, guid: e8e7a321ca5846f4d88fce64f0104ab7, type: 2}
+  - {fileID: 11400000, guid: 1c17da19a549ce2408f8b7cda4382ee7, type: 2}
 --- !u!114 &3567106578717450890
 MonoBehaviour:
   m_ObjectHideFlags: 0
