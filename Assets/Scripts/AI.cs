@@ -85,18 +85,18 @@ using UnityEngine;
 public class AI : MonoBehaviour
 {
     // Gives access to important data about the AI agent (see above)
-    private AgentData _agentData;
+    public AgentData _agentData;
     // Gives access to the agent senses
-    private Sensing _agentSenses;
+    public Sensing _agentSenses;
     // gives access to the agents inventory
-    private InventoryController _agentInventory;
+    public InventoryController _agentInventory;
     // This is the script containing the AI agents actions
     // e.g. agentScript.MoveTo(enemy);
-    private AgentActions _agentActions;
+    public AgentActions _agentActions;
 
-    [Header("Team ID")]
+    [Header("Team Data")]
     [SerializeField] int TeamID;
-    
+
     [Header("Goals")]
     public List<SO_Goals> Goals = new List<SO_Goals>();
 
@@ -112,30 +112,74 @@ public class AI : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
+
+        #region AgentInitialization
         // Initialise the accessable script components
         _agentData = GetComponent<AgentData>();
         _agentActions = GetComponent<AgentActions>();
         _agentSenses = GetComponentInChildren<Sensing>();
         _agentInventory = GetComponentInChildren<InventoryController>();
+        #endregion
 
+
+        #region BlackBoardInitalisation
         TeamBlackboard = BlackboardManager.Instance.GetSharedBlackBoard(TeamID);
 
-        // creating a new goal using the Scriptable Object and AgentData.
+        TeamBlackboard.SetGameObject("Team Base", _agentData.FriendlyBase);
+        TeamBlackboard.SetGameObject("Enemy Base", _agentData.EnemyBase);
+
+        TeamBlackboard.SetGameObject("Team Flag", _agentData.FriendlyFlag);
+        TeamBlackboard.SetGameObject("Enemy Flag", _agentData.EnemyFlag);
+
+        #endregion
+
+        #region GoalAdding
+        ///<summary>
+        /// creating a new goal using the Scriptable Object and AgentData.
+        /// </summary>
+        
+        // Keep Health
         GoalBase KeepHealth = new(_agentData.CurrentHitPoints, Goals[0]);
         _AI.AddGoal(KeepHealth);
 
-        Debug.Log("Added to List " + KeepHealth.ToString());
-
+        // Survivability
         GoalBase Survivability = new(_agentData.CurrentHitPoints, Goals[1]);
         _AI.AddGoal(Survivability);
 
-        Debug.Log("Added to List " + Survivability.ToString());
+        // Get Enemy Flag
+        GoalBase EnemyFlag = new(GotEnemyFlag(), Goals[2]);
+        _AI.AddGoal(EnemyFlag);
+
+        #endregion
+
+        #region ActionAdding
+        ///<summary>
+        /// creating a new action used to satisfy goals
+        ///</summary>
+        
+        // Get Enemy Flag
+        GetEnemyFlag GetEFlag = new(this);
+        GetEFlag.SetGoalSatifiaction(2, GotEnemyFlag());
+        _AI.AddAction(GetEFlag);
+
+        // other
+        #endregion
     }
 
     // Update is called once per frame
     void Update()
     {
         // Run your AI code in here
+        ActionBase currentAction = _AI.ChooseAction(this);
+        currentAction.Execute(Time.deltaTime);
+    }
 
+    public float GotEnemyFlag()
+    {
+        if(_agentData.HasEnemyFlag)
+        {
+            return 50;
+        }
+        return 0;
     }
 }

@@ -70,6 +70,26 @@ public class AgentData : MonoBehaviour
     }
 
     /// <summary>
+    /// The Gameobject representing the friendly flag
+    /// </summary>
+    private GameObject _friendlyFlag;
+    public GameObject FriendlyFlag
+    {
+        get { return _friendlyFlag; }
+        set { _friendlyFlag = value; }
+    }
+
+    /// <summary>
+    /// the GameObject representing the enemy flag
+    /// </summary>
+    private GameObject _enemyFlag;
+    public GameObject EnemyFlag
+    {
+        get { return _enemyFlag; }
+        set { _enemyFlag = value; }
+    }
+
+    /// <summary>
     /// A tag representing members of the friendly team
     /// </summary>
     private string _friendlyTeamTag = "";
@@ -239,6 +259,8 @@ public class AgentData : MonoBehaviour
                 _friendlyFlagName = Names.RedFlag;
                 _friendlyBase = GameObject.Find(Names.RedBase);
                 _enemyBase = GameObject.Find(Names.BlueBase);
+                _friendlyFlag = GameObject.Find(Names.RedFlag);
+                _enemyFlag = GameObject.Find(Names.BlueFlag);
 
                 break;
 
@@ -249,6 +271,8 @@ public class AgentData : MonoBehaviour
                 _friendlyFlagName = Names.BlueFlag;
                 _friendlyBase = GameObject.Find(Names.BlueBase);
                 _enemyBase = GameObject.Find(Names.RedBase);
+                _friendlyFlag = GameObject.Find(Names.BlueFlag);
+                _enemyFlag = GameObject.Find(Names.RedFlag);
 
                 break;
         }
