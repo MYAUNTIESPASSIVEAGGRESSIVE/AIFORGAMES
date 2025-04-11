@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FindMedKit : MonoBehaviour
+public class FindMedKit : ActionBase
 {
-    // Start is called before the first frame update
-    void Start()
+    public FindMedKit(AI teammember): base (teammember)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Execute(float deltaTime)
     {
-        
+
+    }
+
+    public override string ToString()
+    {
+        return "Find HealthKit";
     }
 }

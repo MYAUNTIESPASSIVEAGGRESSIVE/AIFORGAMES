@@ -162,7 +162,13 @@ public class AI : MonoBehaviour
         GetEFlag.SetGoalSatifiaction(2, GotEnemyFlag());
         _AI.AddAction(GetEFlag);
 
-        // other
+        // UseMedKit
+        UseMedKit useMed = new(this);
+        useMed.SetGoalSatifiaction(0, _agentData.CurrentHitPoints);
+        _AI.AddAction(useMed);
+
+        // Flee
+        
         #endregion
     }
 
