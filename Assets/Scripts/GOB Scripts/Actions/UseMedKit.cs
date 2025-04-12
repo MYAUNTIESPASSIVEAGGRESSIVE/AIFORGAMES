@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UseMedKit : ActionBase
 {
-    public UseMedKit(AI teamMember): base (teamMember)
+    public UseMedKit(AI teamMember) : base (teamMember)
     {
 
     }
@@ -17,13 +17,13 @@ public class UseMedKit : ActionBase
         }
         else
         {
-            TeamMember.Gob_AI.UpdateGoals(1, TeamMember._agentData.CurrentHitPoints);
+            _teamMember.Gob_AI.UpdateGoals(1, _teamMember._agentData.CurrentHitPoints);
         }
     }
 
     private bool HasMedKit()
     {
-        if(TeamMember._agentInventory.HasItem("HealthKit")) return true;
+        if(_teamMember._agentInventory.HasItem("HealthKit")) return true;
 
         return false;
     }

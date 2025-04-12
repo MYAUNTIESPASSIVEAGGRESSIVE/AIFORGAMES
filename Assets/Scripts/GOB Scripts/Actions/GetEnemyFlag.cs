@@ -1,48 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GetEnemyFlag : ActionBase
 {
-
     public GetEnemyFlag(AI teamMember) : base(teamMember)
     {
     }
 
     public override void Execute(float deltaTime)
     {
-        if (FindBase() && FindFlag())
+        // if the AI is that the base and at the flag then they collect the flag
+        if (FindFlag())
         {
-            CollectFlag(deltaTime);
+            CollectFlag();
         }
-    }
-
-    private bool FindBase()
-    {
-        if (!(TeamMember.transform.position == TeamMember.TeamBlackboard.GetVector3("EnemyBase")))
-        {
-            TeamMember._agentActions.MoveTo(TeamMember.TeamBlackboard.GetVector3("EnemyBase"));
-            return false;
-        }
-        return true;
     }
 
     public bool FindFlag()
     {
-        if(!(TeamMember.transform.position == 
-            TeamMember.TeamBlackboard.GetGameObject("EnemyFlag").transform.position))
+        if (_teamMember.transform.position != _teamMember._agentData.EnemyFlag.transform.position)
         {
-            TeamMember._agentActions.MoveTo(TeamMember.TeamBlackboard.GetGameObject("EnemyFlag").transform.position);
+            _teamMember._agentActions.MoveTo(_teamMember._agentData.EnemyFlag.transform.position);
             return false;
         }
         return true;
     }
 
-    private void CollectFlag(float deltaTime)
+    public bool CollectFlag()
     {
-        TeamMember._agentInventory.AddItem(TeamMember.TeamBlackboard.GetGameObject("EnemyFlag"));
-        TeamMember.Gob_AI.UpdateGoals(2, TeamMember.GotEnemyFlag());
+        _teamMember._agentActions.CollectItem(_teamMember._agentData.EnemyFlag);
+        _teamMember.Gob_AI.UpdateGoals(2, _teamMember.GotEnemyFlag());
+
+        finished = true;
+        return finished;
     }
 
     public override string ToString()

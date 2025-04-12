@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FightEnemy : MonoBehaviour
+public class FightEnemy : ActionBase
 {
-    // Start is called before the first frame update
-    void Start()
+    public FightEnemy(AI teamMember) : base(teamMember)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Execute(float deltaTime)
     {
-        
+        //_teamMember._agentActions.AttackEnemy(_teamMember._agentSenses.GetNearestEnemyInView());
+    }
+
+    public override string ToString()
+    {
+        return "Fighting Enemy";
     }
 }

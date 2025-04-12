@@ -5,21 +5,21 @@ using UnityEngine;
 public abstract class ActionBase
 {
     // calls AI.
-    protected AI TeamMember;
+    protected AI _teamMember;
 
     // dictionary of goals of which the action satisfies.
     protected Dictionary<int, float> _goalsatified;
 
     // tracking time and completion of action.
-    protected float timer = 0.0f;
+    protected float _timer = 0.0f;
 
     protected bool finished;
 
     public ActionBase(AI teamMember)
     {
         _goalsatified = new Dictionary<int, float>();
-        TeamMember = teamMember;
-        timer = 0.0f;
+        _teamMember = teamMember;
+        _timer = 0.0f;
         finished = false;
     }
 

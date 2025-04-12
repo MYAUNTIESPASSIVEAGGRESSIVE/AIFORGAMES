@@ -84,23 +84,32 @@ using UnityEngine;
 /// </summary>
 public class AI : MonoBehaviour
 {
+    #region Other Agent Scripts
+    [HideInInspector]
     // Gives access to important data about the AI agent (see above)
     public AgentData _agentData;
+
+    [HideInInspector]
     // Gives access to the agent senses
     public Sensing _agentSenses;
+
+    [HideInInspector]
     // gives access to the agents inventory
     public InventoryController _agentInventory;
+
+    [HideInInspector]
     // This is the script containing the AI agents actions
     // e.g. agentScript.MoveTo(enemy);
     public AgentActions _agentActions;
+    #endregion
 
+    // Team ID used to have the AI use the right teams shared blackboard
     [Header("Team Data")]
     [SerializeField] int TeamID;
 
+    // this is a list of Scriptable Objects which the goals use for data.
     [Header("Goals")]
     public List<SO_Goals> Goals = new List<SO_Goals>();
-
-    public BlackBoard TeamBlackboard {  get; protected set; }
 
     private GOB_AI _AI = new GOB_AI();
 
@@ -109,10 +118,10 @@ public class AI : MonoBehaviour
         get { return _AI; }
     }
 
-    // Use this for initialization
+    // Use this for initialization and setting up goals and actions
+    // they are then added to the main GOB_AI script's lists
     void Awake()
     {
-
         #region AgentInitialization
         // Initialise the accessable script components
         _agentData = GetComponent<AgentData>();
@@ -121,34 +130,26 @@ public class AI : MonoBehaviour
         _agentInventory = GetComponentInChildren<InventoryController>();
         #endregion
 
-
-        #region BlackBoardInitalisation
-        TeamBlackboard = BlackboardManager.Instance.GetSharedBlackBoard(TeamID);
-
-        TeamBlackboard.SetGameObject("Team Base", _agentData.FriendlyBase);
-        TeamBlackboard.SetGameObject("Enemy Base", _agentData.EnemyBase);
-
-        TeamBlackboard.SetGameObject("Team Flag", _agentData.FriendlyFlag);
-        TeamBlackboard.SetGameObject("Enemy Flag", _agentData.EnemyFlag);
-
-        #endregion
-
         #region GoalAdding
         ///<summary>
         /// creating a new goal using the Scriptable Object and AgentData.
         /// </summary>
         
         // Keep Health
-        GoalBase KeepHealth = new(_agentData.CurrentHitPoints, Goals[0]);
+        GoalBase KeepHealth = new(_agentData.CurrentHitPoints, Goals[0], CurveFunctions.Exponential);
         _AI.AddGoal(KeepHealth);
 
         // Survivability
-        GoalBase Survivability = new(_agentData.CurrentHitPoints, Goals[1]);
+        GoalBase Survivability = new(_agentData.CurrentHitPoints, Goals[1], CurveFunctions.Exponential);
         _AI.AddGoal(Survivability);
 
         // Get Enemy Flag
-        GoalBase EnemyFlag = new(GotEnemyFlag(), Goals[2]);
+        GoalBase EnemyFlag = new(GotEnemyFlag(), Goals[2], CurveFunctions.ReverseLinear);
         _AI.AddGoal(EnemyFlag);
+
+        // Kill Nearby Enemy
+        GoalBase KillEnemy = new(DistanceBetweenEnemy(), Goals[3], CurveFunctions.ReverseLinear);
+        _AI.AddGoal(KillEnemy);
 
         #endregion
 
@@ -173,19 +174,41 @@ public class AI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
+        // updates the get enemy flag goal and compares the current score of each team
+        _AI.UpdateGoals(2, _agentData.FriendlyScore - _agentData.EnemyScore * 100);
+
         // Run your AI code in here
         ActionBase currentAction = _AI.ChooseAction(this);
+        Debug.Log("Update: currentAction = " + currentAction.ToString());
         currentAction.Execute(Time.deltaTime);
+
     }
 
+    // returns a float when the AI has the flag
     public float GotEnemyFlag()
     {
-        if(_agentData.HasEnemyFlag)
+        if(_agentData.HasEnemyFlag 
+            && _agentInventory.HasItem(_agentData.EnemyFlagName))
         {
             return 50;
         }
         return 0;
+    }
+
+    public float TeamMateHasFlag()
+    {
+        if(_agentData.HasEnemyFlag 
+            && !_agentInventory.HasItem(_agentData.EnemyFlagName))
+        {
+            return 50;
+        }
+        return 0;
+    }
+
+    public float DistanceBetweenEnemy()
+    {
+        return 0; //Vector3.Distance(_agentData.transform.position, _agentSenses.GetNearestEnemyInView().transform.position);
     }
 }

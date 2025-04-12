@@ -63,7 +63,7 @@ public class GoalBase
     CurveFunction _curveFunction;
 
     //Takes the values from the SO and puts them into the GoalBase Class.
-    public GoalBase(float val, SO_Goals GoalSO)
+    public GoalBase(float val, SO_Goals GoalSO, CurveFunction GoalCurve)
     {
         GoalIndex = GoalSO.GoalIndex;
         _LowerRange = GoalSO.GoalBaseValue;
@@ -71,6 +71,9 @@ public class GoalBase
 
         _Value = val;
 
+        _curveFunction = GoalCurve;
+
+        /*
         switch(GoalSO.GoalCurveFunction)
         {
             case SO_Goals.GoalCurve.Step:
@@ -89,6 +92,7 @@ public class GoalBase
                 _curveFunction = CurveFunctions.ReverseLinear;
                 break;
         }
+        */
     }
 
     public float BaseValue

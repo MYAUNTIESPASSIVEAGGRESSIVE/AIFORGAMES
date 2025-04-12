@@ -59,7 +59,6 @@ public class GOB_AI
                 highestAction = action;
             }
         }
-
         return highestAction;
     }
 }
