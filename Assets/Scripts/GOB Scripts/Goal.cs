@@ -72,27 +72,6 @@ public class GoalBase
         _Value = val;
 
         _curveFunction = GoalCurve;
-
-        /*
-        switch(GoalSO.GoalCurveFunction)
-        {
-            case SO_Goals.GoalCurve.Step:
-                _curveFunction = CurveFunctions.StepAtUpper;
-                break;
-
-            case SO_Goals.GoalCurve.Linear:
-                _curveFunction = CurveFunctions.Linear;
-                break;
-
-            case SO_Goals.GoalCurve.Logarithmic:
-                _curveFunction = CurveFunctions.Logarithmic;
-                break;
-
-            case SO_Goals.GoalCurve.ReverseLinear:
-                _curveFunction = CurveFunctions.ReverseLinear;
-                break;
-        }
-        */
     }
 
     public float BaseValue

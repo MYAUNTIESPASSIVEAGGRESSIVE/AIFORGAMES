@@ -103,10 +103,6 @@ public class AI : MonoBehaviour
     public AgentActions _agentActions;
     #endregion
 
-    // Team ID used to have the AI use the right teams shared blackboard
-    [Header("Team Data")]
-    [SerializeField] int TeamID;
-
     // this is a list of Scriptable Objects which the goals use for data.
     [Header("Goals")]
     public List<SO_Goals> Goals = new List<SO_Goals>();
@@ -132,7 +128,7 @@ public class AI : MonoBehaviour
 
         #region GoalAdding
         ///<summary>
-        /// creating a new goal using the Scriptable Object and AgentData.
+        /// creating a new goal using the Scriptable Object and AgentData. (noted with the letter G)
         /// </summary>
         
         // Keep Health
@@ -140,16 +136,26 @@ public class AI : MonoBehaviour
         _AI.AddGoal(KeepHealth);
 
         // Survivability
-        GoalBase Survivability = new(_agentData.CurrentHitPoints, Goals[1], CurveFunctions.Exponential);
-        _AI.AddGoal(Survivability);
+        GoalBase GSurvivability = new(_agentData.CurrentHitPoints, Goals[1], CurveFunctions.Exponential);
+        _AI.AddGoal(GSurvivability);
 
         // Get Enemy Flag
-        GoalBase EnemyFlag = new(GotEnemyFlag(), Goals[2], CurveFunctions.ReverseLinear);
-        _AI.AddGoal(EnemyFlag);
+        GoalBase GEnemyFlag = new(GotEnemyFlag(), Goals[2], CurveFunctions.ReverseLinear);
+        _AI.AddGoal(GEnemyFlag);
 
         // Kill Nearby Enemy
-        GoalBase KillEnemy = new(DistanceBetweenEnemy(), Goals[3], CurveFunctions.ReverseLinear);
-        _AI.AddGoal(KillEnemy);
+        GoalBase GKillEnemy = new(DistanceBetweenEnemy(), Goals[3], CurveFunctions.ReverseLinear);
+        _AI.AddGoal(GKillEnemy);
+
+        // Return the Enemy Flag
+        GoalBase GReturnEnemyFlag = new(GotEnemyFlag(), Goals[4], CurveFunctions.StepAtUpper);
+        _AI.AddGoal(GReturnEnemyFlag);
+
+        // Protect Flag Holder
+        GoalBase GProtectFlagHolder = new(TeamMateHasFlag(), Goals[5], CurveFunctions.StepAtUpper);
+        _AI.AddGoal(GProtectFlagHolder);
+
+        // Return Team Flag
 
         #endregion
 
@@ -157,19 +163,24 @@ public class AI : MonoBehaviour
         ///<summary>
         /// creating a new action used to satisfy goals
         ///</summary>
-        
-        // Get Enemy Flag
-        GetEnemyFlag GetEFlag = new(this);
-        GetEFlag.SetGoalSatifiaction(2, GotEnemyFlag());
-        _AI.AddAction(GetEFlag);
 
-        // UseMedKit
+        // Get Enemy Flag
+        GetEnemyFlag getEFlag = new(this);
+        getEFlag.SetGoalSatifiaction(2, GotEnemyFlag());
+        _AI.AddAction(getEFlag);
+
+        // Use MedKit
         UseMedKit useMed = new(this);
         useMed.SetGoalSatifiaction(0, _agentData.CurrentHitPoints);
         _AI.AddAction(useMed);
 
-        // Flee
-        
+        // Return Enemy Flag
+        ReturnEnemyFlag returnEFlag = new(this);
+        returnEFlag.SetGoalSatifiaction(4, GotEnemyFlag());
+        _AI.AddAction(returnEFlag);
+
+        // Protect Flag Holder
+
         #endregion
     }
 
@@ -186,6 +197,7 @@ public class AI : MonoBehaviour
 
     }
 
+    #region Goal Conditions
     // returns a float when the AI has the flag
     public float GotEnemyFlag()
     {
@@ -211,4 +223,10 @@ public class AI : MonoBehaviour
     {
         return 0; //Vector3.Distance(_agentData.transform.position, _agentSenses.GetNearestEnemyInView().transform.position);
     }
+
+    public float SurvivabilityCalculations()
+    {
+        return 0;
+    }
+    #endregion
 }

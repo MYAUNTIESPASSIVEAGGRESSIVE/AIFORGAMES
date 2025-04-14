@@ -14,13 +14,15 @@ public class SO_Goals : ScriptableObject
         ReverseLinear,
     }
 
-    [Header("Goal Infomation")]
+    [Header("Goal Information")]
     public int GoalIndex;
     public string GoalName;
 
     [Header("Goal Insistance")]
     public float GoalBaseValue;
     public float GoalFinalValue;
+
+    [Tooltip("Used For classification rather than functionaility")]
     public GoalCurve GoalCurveFunction;
 
 
