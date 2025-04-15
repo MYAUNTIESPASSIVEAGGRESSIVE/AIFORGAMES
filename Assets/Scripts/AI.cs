@@ -156,7 +156,8 @@ public class AI : MonoBehaviour
         _AI.AddGoal(GProtectFlagHolder);
 
         // Return Team Flag
-
+        //GoalBase GGetFriendlyFlag = new(, Goals[6], CurveFunctions.StepAtUpper);
+        //_AI.AddGoal(GGetFriendlyFlag);
         #endregion
 
         #region ActionAdding
@@ -180,6 +181,17 @@ public class AI : MonoBehaviour
         _AI.AddAction(returnEFlag);
 
         // Protect Flag Holder
+        ProtectFlagHolder protectFlagHolder = new(this);
+        protectFlagHolder.SetGoalSatifiaction(5, TeamMateHasFlag());
+        _AI.AddAction(protectFlagHolder);
+
+        // Flee
+        Flee fleeEnemies = new(this);
+        fleeEnemies.SetGoalSatifiaction(1, SurvivabilityCalculations());
+        _AI.AddAction(fleeEnemies);
+
+        // Get Friendly Flag
+
 
         #endregion
     }
@@ -188,27 +200,33 @@ public class AI : MonoBehaviour
     public void Update()
     {
         // updates the get enemy flag goal and compares the current score of each team
-        _AI.UpdateGoals(2, _agentData.FriendlyScore - _agentData.EnemyScore * 100);
+        _AI.UpdateGoals(2, (_agentData.FriendlyScore - _agentData.EnemyScore) * 100);
 
         // Run your AI code in here
         ActionBase currentAction = _AI.ChooseAction(this);
         Debug.Log("Update: currentAction = " + currentAction.ToString());
         currentAction.Execute(Time.deltaTime);
 
+        //DistanceBetweenEnemy();
+        GotEnemyFlag();
+        TeamMateHasFlag();
+        EBaseHasFriendlyFlag();
+        SurvivabilityCalculations();
     }
 
-    #region Goal Conditions
+    #region Goal Value Functions
     // returns a float when the AI has the flag
     public float GotEnemyFlag()
     {
-        if(_agentData.HasEnemyFlag 
-            && _agentInventory.HasItem(_agentData.EnemyFlagName))
+        if(_agentData.HasEnemyFlag && 
+            _agentInventory.HasItem(_agentData.EnemyFlagName))
         {
-            return 50;
+            return 500;
         }
         return 0;
     }
 
+    // returns a float when an AI's teammate has the flag
     public float TeamMateHasFlag()
     {
         if(_agentData.HasEnemyFlag 
@@ -219,14 +237,29 @@ public class AI : MonoBehaviour
         return 0;
     }
 
+    // returns the distance between the AI and the nearest Enemy as a float
     public float DistanceBetweenEnemy()
     {
         return 0; //Vector3.Distance(_agentData.transform.position, _agentSenses.GetNearestEnemyInView().transform.position);
     }
 
+    // calculates the amount of nearby enemies,
+    // teammates and the health of the AI and returns the danger value as a float
     public float SurvivabilityCalculations()
     {
         return 0;
     }
+
+    // if the friendly flag is inside the enemy base return the max value
+    public float EBaseHasFriendlyFlag()
+    {
+        if(_agentData.FriendlyFlag.transform.position ==
+            _agentData.EnemyBase.transform.position)
+        {
+            return 1000;
+        }
+        return 0;
+    }
+
     #endregion
 }

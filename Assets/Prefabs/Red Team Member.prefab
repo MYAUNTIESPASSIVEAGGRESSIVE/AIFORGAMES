@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 114244726350463480}
   - component: {fileID: 3567106578717450890}
   - component: {fileID: 3215751405895708155}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Red Team Member
   m_TagString: Red Team
   m_Icon: {fileID: 0}
@@ -513,7 +513,7 @@ MonoBehaviour:
   HitProbability: 0.5
   PickUpRange: 2
   Speed: 200
-  ViewRange: 100
+  ViewRange: 1000
   CurrentHitPoints: 0
 --- !u!114 &114583674609416792
 MonoBehaviour:
@@ -548,6 +548,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1c17da19a549ce2408f8b7cda4382ee7, type: 2}
   - {fileID: 11400000, guid: e27a25cd55b7737408383be5fdf11338, type: 2}
   - {fileID: 11400000, guid: e4a5543af2a5e8748bb1e6c788daed75, type: 2}
+  - {fileID: 11400000, guid: eafa9998771bb464983ab8371c2d3a01, type: 2}
+  - {fileID: 11400000, guid: 0e665255fb50ec8469a482fbfcfe11ea, type: 2}
 --- !u!114 &3567106578717450890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,13 +565,12 @@ MonoBehaviour:
   _data:
     _json: '{"declarations":{"Kind":"Object","collection":{"$content":[{"name":"AgentData","value":{"$content":0,"$type":"UnityEngine.Object"},"typeHandle":{"Identification":"AgentData,
       Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"AgentActions","value":{"$content":1,"$type":"UnityEngine.Object"},"typeHandle":{"Identification":"AgentActions,
-      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"AgentSenses","value":{"$content":2,"$type":"UnityEngine.Object"},"typeHandle":{"Identification":"Sensing,
-      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"AgentInventory","value":{"$content":3,"$type":"UnityEngine.Object"},"typeHandle":{"Identification":"InventoryController,
+      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"AgentSenses","value":null,"typeHandle":{"Identification":"Sensing,
+      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"AgentInventory","value":{"$content":2,"$type":"UnityEngine.Object"},"typeHandle":{"Identification":"InventoryController,
       Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"}}'
     _objectReferences:
     - {fileID: 114707554067482440}
     - {fileID: 114583674609416792}
-    - {fileID: 0}
     - {fileID: 114940734585974856}
 --- !u!114 &3215751405895708155
 MonoBehaviour:
@@ -1401,10 +1402,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VisibleToAiMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 201
   WallsLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1
 --- !u!1 &6871186615584862118
 GameObject:
   m_ObjectHideFlags: 0

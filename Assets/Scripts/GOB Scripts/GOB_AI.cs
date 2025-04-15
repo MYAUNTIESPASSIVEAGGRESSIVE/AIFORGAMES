@@ -46,6 +46,9 @@ public class GOB_AI
             if(goals.FinalValue > highestGoal.FinalValue)
             {
                 highestGoal = goals;
+
+                Debug.Log(highestGoal.GoalIndex);
+                Debug.Log("Update: currentgoalvalue = " + highestGoal._Value);
             }
         }
 
@@ -59,6 +62,7 @@ public class GOB_AI
                 highestAction = action;
             }
         }
+
         return highestAction;
     }
 }

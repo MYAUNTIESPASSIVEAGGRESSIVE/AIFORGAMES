@@ -15,5 +15,5 @@ MonoBehaviour:
   GoalIndex: 4
   GoalName: Return Enemy Flag
   GoalBaseValue: 0
-  GoalFinalValue: 50
+  GoalFinalValue: 500
   GoalCurveFunction: 0

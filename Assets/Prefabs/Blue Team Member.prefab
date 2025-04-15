@@ -563,7 +563,7 @@ GameObject:
   - component: {fileID: 114475680222163902}
   - component: {fileID: 4848479103652651519}
   - component: {fileID: 4373626588367927738}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Blue Team Member
   m_TagString: Blue Team
   m_Icon: {fileID: 0}
@@ -731,7 +731,7 @@ MonoBehaviour:
   HitProbability: 0.5
   PickUpRange: 2
   Speed: 200
-  ViewRange: 100
+  ViewRange: 1000
   CurrentHitPoints: 0
 --- !u!114 &114715059735131574
 MonoBehaviour:
@@ -766,6 +766,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1c17da19a549ce2408f8b7cda4382ee7, type: 2}
   - {fileID: 11400000, guid: e27a25cd55b7737408383be5fdf11338, type: 2}
   - {fileID: 11400000, guid: e4a5543af2a5e8748bb1e6c788daed75, type: 2}
+  - {fileID: 11400000, guid: eafa9998771bb464983ab8371c2d3a01, type: 2}
+  - {fileID: 11400000, guid: 0e665255fb50ec8469a482fbfcfe11ea, type: 2}
 --- !u!114 &4848479103652651519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -939,10 +941,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VisibleToAiMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 201
   WallsLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1
 --- !u!1 &1749181103277312
 GameObject:
   m_ObjectHideFlags: 0
@@ -1450,7 +1452,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

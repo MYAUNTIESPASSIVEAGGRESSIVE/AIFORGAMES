@@ -58,7 +58,7 @@ public class GoalBase
     private float _LowerRange;
     private float _UpperRange;
 
-    private float _Value;
+    public float _Value;
 
     CurveFunction _curveFunction;
 

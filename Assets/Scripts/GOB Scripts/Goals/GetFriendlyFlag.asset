@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 895d462b9690b764d9cb94443bedcd47, type: 3}
-  m_Name: CaptureEnemyFlag
+  m_Name: GetFriendlyFlag
   m_EditorClassIdentifier: 
-  GoalIndex: 2
-  GoalName: Capture Enemy Flag
-  GoalBaseValue: 500
-  GoalFinalValue: 0
-  GoalCurveFunction: 4
+  GoalIndex: 6
+  GoalName: Get Friendly Flag
+  GoalBaseValue: 0
+  GoalFinalValue: 100
+  GoalCurveFunction: 0

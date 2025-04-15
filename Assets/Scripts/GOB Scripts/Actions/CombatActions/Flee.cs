@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flee : MonoBehaviour
+public class Flee : ActionBase
 {
-    // Start is called before the first frame update
-    void Start()
+    public Flee(AI teamMember) : base(teamMember)
+    {
+    }
+
+    public override void Execute(float deltatime)
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override string ToString()
     {
-        
+        return "Flee from the Danger";
     }
 }

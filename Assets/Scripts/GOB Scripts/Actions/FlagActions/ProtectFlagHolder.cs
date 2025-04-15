@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ProtectFlagHolder : ActionBase
@@ -10,19 +11,35 @@ public class ProtectFlagHolder : ActionBase
 
     public override void Execute(float deltatime)
     {
-        if (TeamMateNear())
-        {
+        GameObject NearestTeamMate = _teamMember._agentSenses.GetNearestFriendlyInView();
 
+        if (TeamMateNear(NearestTeamMate))
+        {
+            ProtectTeamMate(NearestTeamMate);
         }
     }
 
-    private bool TeamMateNear()
+    private bool TeamMateNear(GameObject nearTeamMate)
     {
-        if (_teamMember._agentSenses.GetNearestFriendlyInView())
+        if (nearTeamMate.GetComponent<AgentData>().HasEnemyFlag)
         {
             return true;
         }
         return false;
+    }
+
+    private bool ProtectTeamMate(GameObject flagBarer)
+    {
+        if(flagBarer.GetComponent<AgentData>().HasEnemyFlag 
+            && flagBarer.transform.position 
+            == _teamMember._agentData.FriendlyBase.transform.position)
+        {
+            finished = true;
+            return finished;
+        }
+
+        finished = false;
+        return finished;
     }
 
     public override string ToString()
