@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SeeingSense : Sensing
+public class SeeingSense : MonoBehaviour
 {
 
 }

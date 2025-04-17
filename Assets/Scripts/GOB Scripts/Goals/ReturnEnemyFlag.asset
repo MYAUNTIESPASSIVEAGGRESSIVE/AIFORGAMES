@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895d462b9690b764d9cb94443bedcd47, type: 3}
   m_Name: ReturnEnemyFlag
   m_EditorClassIdentifier: 
-  GoalIndex: 4
+  GoalIndex: 2
   GoalName: Return Enemy Flag
   GoalBaseValue: 0
-  GoalFinalValue: 500
+  GoalFinalValue: 100
   GoalCurveFunction: 0

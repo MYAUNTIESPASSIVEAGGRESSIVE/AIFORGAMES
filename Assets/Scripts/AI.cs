@@ -130,34 +130,19 @@ public class AI : MonoBehaviour
         ///<summary>
         /// creating a new goal using the Scriptable Object and AgentData. (noted with the letter G)
         /// </summary>
-        
-        // Keep Health
-        GoalBase KeepHealth = new(_agentData.CurrentHitPoints, Goals[0], CurveFunctions.Exponential);
-        _AI.AddGoal(KeepHealth);
-
-        // Survivability
-        GoalBase GSurvivability = new(_agentData.CurrentHitPoints, Goals[1], CurveFunctions.Exponential);
-        _AI.AddGoal(GSurvivability);
 
         // Get Enemy Flag
-        GoalBase GEnemyFlag = new(GotEnemyFlag(), Goals[2], CurveFunctions.ReverseLinear);
+        GoalBase GEnemyFlag = new(GotEnemyFlag(), Goals[0], CurveFunctions.ReverseLinear);
         _AI.AddGoal(GEnemyFlag);
 
-        // Kill Nearby Enemy
-        GoalBase GKillEnemy = new(DistanceBetweenEnemy(), Goals[3], CurveFunctions.ReverseLinear);
-        _AI.AddGoal(GKillEnemy);
-
         // Return the Enemy Flag
-        GoalBase GReturnEnemyFlag = new(GotEnemyFlag(), Goals[4], CurveFunctions.StepAtUpper);
+        GoalBase GReturnEnemyFlag = new(GotEnemyFlag(), Goals[1], CurveFunctions.Exponential);
         _AI.AddGoal(GReturnEnemyFlag);
 
         // Protect Flag Holder
-        GoalBase GProtectFlagHolder = new(TeamMateHasFlag(), Goals[5], CurveFunctions.StepAtUpper);
+        GoalBase GProtectFlagHolder = new(TeamMateHasFlag(), Goals[2], CurveFunctions.StepAtUpper);
         _AI.AddGoal(GProtectFlagHolder);
-
-        // Return Team Flag
-        //GoalBase GGetFriendlyFlag = new(, Goals[6], CurveFunctions.StepAtUpper);
-        //_AI.AddGoal(GGetFriendlyFlag);
+        
         #endregion
 
         #region ActionAdding
@@ -167,31 +152,18 @@ public class AI : MonoBehaviour
 
         // Get Enemy Flag
         GetEnemyFlag getEFlag = new(this);
-        getEFlag.SetGoalSatifiaction(2, GotEnemyFlag());
+        getEFlag.SetGoalSatifiaction(1, GotEnemyFlag());
         _AI.AddAction(getEFlag);
-
-        // Use MedKit
-        UseMedKit useMed = new(this);
-        useMed.SetGoalSatifiaction(0, _agentData.CurrentHitPoints);
-        _AI.AddAction(useMed);
 
         // Return Enemy Flag
         ReturnEnemyFlag returnEFlag = new(this);
-        returnEFlag.SetGoalSatifiaction(4, GotEnemyFlag());
+        returnEFlag.SetGoalSatifiaction(2, 100);
         _AI.AddAction(returnEFlag);
 
         // Protect Flag Holder
         ProtectFlagHolder protectFlagHolder = new(this);
-        protectFlagHolder.SetGoalSatifiaction(5, TeamMateHasFlag());
+        protectFlagHolder.SetGoalSatifiaction(3, 150);
         _AI.AddAction(protectFlagHolder);
-
-        // Flee
-        Flee fleeEnemies = new(this);
-        fleeEnemies.SetGoalSatifiaction(1, SurvivabilityCalculations());
-        _AI.AddAction(fleeEnemies);
-
-        // Get Friendly Flag
-
 
         #endregion
     }
@@ -199,19 +171,27 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        // updates the get enemy flag goal and compares the current score of each team
-        _AI.UpdateGoals(2, (_agentData.FriendlyScore - _agentData.EnemyScore) * 100);
+        _AI.UpdateGoals(1, GotEnemyFlag());
+        _AI.UpdateGoals(2, GotEnemyFlag());
+        _AI.UpdateGoals(3, TeamMateHasFlag());
 
         // Run your AI code in here
         ActionBase currentAction = _AI.ChooseAction(this);
         Debug.Log("Update: currentAction = " + currentAction.ToString());
         currentAction.Execute(Time.deltaTime);
 
+        if (_agentData.HasEnemyFlag)
+        {
+            Debug.Log("Got the enemy flag");
+        }
+
+        #region Goal Value Checks
         //DistanceBetweenEnemy();
         GotEnemyFlag();
-        TeamMateHasFlag();
-        EBaseHasFriendlyFlag();
-        SurvivabilityCalculations();
+        //TeamMateHasFlag();
+        //EBaseHasFriendlyFlag();
+        //SurvivabilityCalculations();
+        #endregion
     }
 
     #region Goal Value Functions
@@ -221,19 +201,14 @@ public class AI : MonoBehaviour
         if(_agentData.HasEnemyFlag && 
             _agentInventory.HasItem(_agentData.EnemyFlagName))
         {
-            return 500;
+            return 100;
         }
         return 0;
     }
 
     // returns a float when an AI's teammate has the flag
     public float TeamMateHasFlag()
-    {
-        if(_agentData.HasEnemyFlag 
-            && !_agentInventory.HasItem(_agentData.EnemyFlagName))
-        {
-            return 50;
-        }
+    { 
         return 0;
     }
 

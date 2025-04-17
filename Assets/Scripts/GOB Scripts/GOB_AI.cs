@@ -31,7 +31,10 @@ public class GOB_AI
             if (goal.GoalIndex == ID)
             {
                 goal.BaseValue = value;
+
+                
             }
+            Debug.Log("Updated goal: " + goal.GoalIndex + ", value: " + goal.BaseValue.ToString("F4"));
         }
     }
 
@@ -46,11 +49,9 @@ public class GOB_AI
             if(goals.FinalValue > highestGoal.FinalValue)
             {
                 highestGoal = goals;
-
-                Debug.Log(highestGoal.GoalIndex);
-                Debug.Log("Update: currentgoalvalue = " + highestGoal._Value);
             }
         }
+        Debug.Log("Max goal: " + highestGoal.GoalIndex + ", utility: " + highestGoal.FinalValue.ToString("F4"));
 
         ActionBase highestAction = Actions[0];
         // checks each action within the list
@@ -62,7 +63,7 @@ public class GOB_AI
                 highestAction = action;
             }
         }
-
+        Debug.Log(" Best action: " + highestAction.ToString() + ", goal satisfaction: = " + highestAction.EvaluateGoalSatisfaction(highestGoal.GoalIndex).ToString("F4"));
         return highestAction;
     }
 }

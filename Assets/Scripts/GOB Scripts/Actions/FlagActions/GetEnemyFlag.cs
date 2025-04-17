@@ -28,9 +28,15 @@ public class GetEnemyFlag : ActionBase
     public bool CollectFlag()
     {
         _teamMember._agentActions.CollectItem(_teamMember._agentData.EnemyFlag);
-        _teamMember.Gob_AI.UpdateGoals(4, _teamMember.GotEnemyFlag());
+        _teamMember._agentInventory.AddItem(_teamMember._agentData.EnemyFlag);
 
-        finished = true;
+        _teamMember.Gob_AI.UpdateGoals(1, _teamMember.GotEnemyFlag());
+
+        if (_teamMember._agentData.HasEnemyFlag)
+        {
+            finished = true;
+            return finished;
+        }
         return finished;
     }
 

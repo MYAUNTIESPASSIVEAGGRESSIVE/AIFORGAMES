@@ -36,7 +36,6 @@ public abstract class ActionBase
         {
             return _goalsatified[ID];
         }
-        
         return 0.0f;
     }
 

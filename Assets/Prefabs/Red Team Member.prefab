@@ -544,12 +544,9 @@ MonoBehaviour:
   _agentInventory: {fileID: 0}
   _agentActions: {fileID: 0}
   Goals:
-  - {fileID: 11400000, guid: e8e7a321ca5846f4d88fce64f0104ab7, type: 2}
-  - {fileID: 11400000, guid: 1c17da19a549ce2408f8b7cda4382ee7, type: 2}
   - {fileID: 11400000, guid: e27a25cd55b7737408383be5fdf11338, type: 2}
-  - {fileID: 11400000, guid: e4a5543af2a5e8748bb1e6c788daed75, type: 2}
+  - {fileID: 11400000, guid: 32792b86b00a3f943ba78eacacaef8c1, type: 2}
   - {fileID: 11400000, guid: eafa9998771bb464983ab8371c2d3a01, type: 2}
-  - {fileID: 11400000, guid: 0e665255fb50ec8469a482fbfcfe11ea, type: 2}
 --- !u!114 &3567106578717450890
 MonoBehaviour:
   m_ObjectHideFlags: 0
