@@ -142,7 +142,11 @@ public class AI : MonoBehaviour
         // Protect Flag Holder
         GoalBase GProtectFlagHolder = new(TeamMateHasFlag(), Goals[2], CurveFunctions.StepAtUpper);
         _AI.AddGoal(GProtectFlagHolder);
-        
+
+        // Attack Neaby Enemy
+        GoalBase GAttackEnemy = new(DistanceBetweenEnemy(), Goals[3], CurveFunctions.Exponential);
+        _AI.AddGoal(GAttackEnemy);
+
         #endregion
 
         #region ActionAdding
@@ -165,6 +169,11 @@ public class AI : MonoBehaviour
         protectFlagHolder.SetGoalSatifiaction(3, 150);
         _AI.AddAction(protectFlagHolder);
 
+        // Attack Enemy
+        FightEnemy fightEnemy = new(this);
+        fightEnemy.SetGoalSatifiaction(4, 250);
+        _AI.AddAction(fightEnemy);
+
         #endregion
     }
 
@@ -174,6 +183,7 @@ public class AI : MonoBehaviour
         _AI.UpdateGoals(1, GotEnemyFlag());
         _AI.UpdateGoals(2, GotEnemyFlag());
         _AI.UpdateGoals(3, TeamMateHasFlag());
+        _AI.UpdateGoals(4, DistanceBetweenEnemy());
 
         // Run your AI code in here
         ActionBase currentAction = _AI.ChooseAction(this);
@@ -186,9 +196,9 @@ public class AI : MonoBehaviour
         }
 
         #region Goal Value Checks
-        //DistanceBetweenEnemy();
+        DistanceBetweenEnemy();
         GotEnemyFlag();
-        //TeamMateHasFlag();
+        TeamMateHasFlag();
         //EBaseHasFriendlyFlag();
         //SurvivabilityCalculations();
         #endregion
@@ -208,22 +218,41 @@ public class AI : MonoBehaviour
 
     // returns a float when an AI's teammate has the flag
     public float TeamMateHasFlag()
-    { 
+    {
         return 0;
     }
 
     // returns the distance between the AI and the nearest Enemy as a float
     public float DistanceBetweenEnemy()
     {
-        return 0; //Vector3.Distance(_agentData.transform.position, _agentSenses.GetNearestEnemyInView().transform.position);
+        GameObject nearestEnemy = _agentSenses.GetNearestEnemyInView();
+
+        if(nearestEnemy != null)
+        {
+            return 100 * (1/Vector3.Distance(_agentData.transform.position, nearestEnemy.transform.position));
+        }
+
+        return 0;
     }
 
     // calculates the amount of nearby enemies,
     // teammates and the health of the AI and returns the danger value as a float
+    /*
     public float SurvivabilityCalculations()
     {
-        return 0;
+        int hitpoints = _agentData.CurrentHitPoints;
+        List<GameObject> Friendlies = _agentSenses.GetFriendliesInView();
+        List<GameObject> Enemies = _agentSenses.GetEnemiesInView();
+        bool moreTeamMates;
+
+        if(Friendlies.Count >= Enemies.Count)
+        {
+            moreTeamMates = true;
+        }
+        moreTeamMates = false;
+
     }
+    */
 
     // if the friendly flag is inside the enemy base return the max value
     public float EBaseHasFriendlyFlag()

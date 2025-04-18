@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -13,7 +14,7 @@ using UnityEngine;
 public class Sensing : MonoBehaviour
 {
     // The owner of the senses
-    private AgentData _agentData;
+    public AgentData _agentData;
 
     private const int MaxObjectsInView = 10;
 
@@ -29,15 +30,15 @@ public class Sensing : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
-        _agentData = GetComponentInParent<AgentData>();
+        
     }
 
     // _overlapResults is returned by the sphere overlap function
     private Collider[] _overlapResults = new Collider[MaxObjectsInView];
     // _objects in view is the list of objects not obstructed (and not ourself)
-    private List<GameObject> _objectsInView = new List<GameObject>(MaxObjectsInView);
+    [SerializeField]private List<GameObject> _objectsInView = new List<GameObject>(MaxObjectsInView);
 
     /// <summary>
     /// This updates the objectsPercievecd list by calling OverlapSphereNonAlloc with the mask selecting only

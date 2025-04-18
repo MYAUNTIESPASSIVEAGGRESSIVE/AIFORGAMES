@@ -108,7 +108,7 @@ public class AgentData : MonoBehaviour
     public float HitProbability = 0.5f;
     public float PickUpRange = 2.0f;
     public int Speed = 200;
-    public int ViewRange = 10;
+    public int ViewRange = 100;
 
     // Check for collisions with everything when checking for a random location for the wander function
     public const int AgentLayerMask = -1;
@@ -245,7 +245,7 @@ public class AgentData : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {        
         CurrentHitPoints = MaxHitPoints;
 
