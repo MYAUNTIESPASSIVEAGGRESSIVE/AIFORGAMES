@@ -136,14 +136,14 @@ public class AI : MonoBehaviour
         _AI.AddGoal(GEnemyFlag);
 
         // Return the Enemy Flag
-        GoalBase GReturnEnemyFlag = new(GotEnemyFlag(), Goals[1], CurveFunctions.Exponential);
+        GoalBase GReturnEnemyFlag = new(GotEnemyFlag(), Goals[1], CurveFunctions.Linear);
         _AI.AddGoal(GReturnEnemyFlag);
 
         // Protect Flag Holder
         GoalBase GProtectFlagHolder = new(TeamMateHasFlag(), Goals[2], CurveFunctions.StepAtUpper);
         _AI.AddGoal(GProtectFlagHolder);
 
-        // Attack Neaby Enemy
+        // Attack Nearby Enemy
         GoalBase GAttackEnemy = new(DistanceBetweenEnemy(), Goals[3], CurveFunctions.Exponential);
         _AI.AddGoal(GAttackEnemy);
 
@@ -171,7 +171,7 @@ public class AI : MonoBehaviour
 
         // Attack Enemy
         FightEnemy fightEnemy = new(this);
-        fightEnemy.SetGoalSatifiaction(4, 250);
+        fightEnemy.SetGoalSatifiaction(4, 150);
         _AI.AddAction(fightEnemy);
 
         #endregion
@@ -181,19 +181,11 @@ public class AI : MonoBehaviour
     public void Update()
     {
         _AI.UpdateGoals(1, GotEnemyFlag());
-        _AI.UpdateGoals(2, GotEnemyFlag());
-        _AI.UpdateGoals(3, TeamMateHasFlag());
-        _AI.UpdateGoals(4, DistanceBetweenEnemy());
 
         // Run your AI code in here
         ActionBase currentAction = _AI.ChooseAction(this);
         Debug.Log("Update: currentAction = " + currentAction.ToString());
         currentAction.Execute(Time.deltaTime);
-
-        if (_agentData.HasEnemyFlag)
-        {
-            Debug.Log("Got the enemy flag");
-        }
 
         #region Goal Value Checks
         DistanceBetweenEnemy();
@@ -229,7 +221,9 @@ public class AI : MonoBehaviour
 
         if(nearestEnemy != null)
         {
-            return 100 * (1/Vector3.Distance(_agentData.transform.position, nearestEnemy.transform.position));
+            Debug.Log(200 * (1 / Vector3.Distance(_agentData.transform.position, nearestEnemy.transform.position)));
+
+            return 200 * (1/Vector3.Distance(_agentData.transform.position, nearestEnemy.transform.position));
         }
 
         return 0;

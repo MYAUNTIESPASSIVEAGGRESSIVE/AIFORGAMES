@@ -10,7 +10,7 @@ public class FightEnemy : ActionBase
 
     public override void Execute(float deltaTime)
     {
-        if(Vector3.Distance(_teamMember.transform.position, _teamMember._agentSenses.GetNearestEnemyInView().transform.position) < 0.50)
+        if(Vector3.Distance(_teamMember.transform.position, _teamMember._agentSenses.GetNearestEnemyInView().transform.position) <= 1)
         {
             Fighting(_teamMember._agentSenses.GetNearestEnemyInView());
         }
@@ -22,9 +22,12 @@ public class FightEnemy : ActionBase
 
         if (Enemy = null)
         {
+            _teamMember.Gob_AI.UpdateGoals(4, 0);
+
             finished = true;
             return finished;
         }
+
         return finished;
     }
 
