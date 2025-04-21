@@ -10,24 +10,21 @@ public class FightEnemy : ActionBase
 
     public override void Execute(float deltaTime)
     {
-        if(Vector3.Distance(_teamMember.transform.position, _teamMember._agentSenses.GetNearestEnemyInView().transform.position) <= 1)
+        if(Vector3.Distance(_teamMember.transform.position, _teamMember._agentSenses.GetNearestEnemyInView().transform.position) <= 2)
         {
+            _teamMember._agentActions.MoveTo(_teamMember._agentSenses.GetNearestEnemyInView().transform.position);
+
             Fighting(_teamMember._agentSenses.GetNearestEnemyInView());
         }
     }
 
     public bool Fighting(GameObject Enemy)
     {
+        Debug.Log("Attacking");
+
         _teamMember._agentActions.AttackEnemy(Enemy);
 
-        if (Enemy = null)
-        {
-            _teamMember.Gob_AI.UpdateGoals(4, 0);
-
-            finished = true;
-            return finished;
-        }
-
+        finished = true;
         return finished;
     }
 

@@ -15,5 +15,5 @@ MonoBehaviour:
   GoalIndex: 4
   GoalName: Attack Enemy
   GoalBaseValue: 0
-  GoalFinalValue: 150
+  GoalFinalValue: 100
   GoalCurveFunction: 2

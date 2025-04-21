@@ -156,7 +156,7 @@ public class AI : MonoBehaviour
 
         // Get Enemy Flag
         GetEnemyFlag getEFlag = new(this);
-        getEFlag.SetGoalSatifiaction(1, GotEnemyFlag());
+        getEFlag.SetGoalSatifiaction(1, 500);
         _AI.AddAction(getEFlag);
 
         // Return Enemy Flag
@@ -171,7 +171,7 @@ public class AI : MonoBehaviour
 
         // Attack Enemy
         FightEnemy fightEnemy = new(this);
-        fightEnemy.SetGoalSatifiaction(4, 150);
+        fightEnemy.SetGoalSatifiaction(4, 100);
         _AI.AddAction(fightEnemy);
 
         #endregion
@@ -220,9 +220,14 @@ public class AI : MonoBehaviour
     {
         GameObject nearestEnemy = _agentSenses.GetNearestEnemyInView();
 
-        Debug.Log(200 * (1 / Vector3.Distance(_agentData.transform.position, nearestEnemy.transform.position)));
+        if(nearestEnemy != null)
+        {
+            Debug.Log(200 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position)));
 
-        return 200 * (1/Vector3.Distance(_agentData.transform.position, nearestEnemy.transform.position));
+            return 200 * (1/Vector3.Distance(transform.position, nearestEnemy.transform.position));
+        }
+
+        return 0;
     }
 
     // calculates the amount of nearby enemies,
