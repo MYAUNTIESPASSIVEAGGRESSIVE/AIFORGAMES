@@ -181,6 +181,7 @@ public class AI : MonoBehaviour
     public void Update()
     {
         _AI.UpdateGoals(1, GotEnemyFlag());
+        _AI.UpdateGoals(4, DistanceBetweenEnemy());
 
         // Run your AI code in here
         ActionBase currentAction = _AI.ChooseAction(this);
@@ -219,14 +220,9 @@ public class AI : MonoBehaviour
     {
         GameObject nearestEnemy = _agentSenses.GetNearestEnemyInView();
 
-        if(nearestEnemy != null)
-        {
-            Debug.Log(200 * (1 / Vector3.Distance(_agentData.transform.position, nearestEnemy.transform.position)));
+        Debug.Log(200 * (1 / Vector3.Distance(_agentData.transform.position, nearestEnemy.transform.position)));
 
-            return 200 * (1/Vector3.Distance(_agentData.transform.position, nearestEnemy.transform.position));
-        }
-
-        return 0;
+        return 200 * (1/Vector3.Distance(_agentData.transform.position, nearestEnemy.transform.position));
     }
 
     // calculates the amount of nearby enemies,

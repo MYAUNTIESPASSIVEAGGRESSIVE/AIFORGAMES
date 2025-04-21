@@ -231,7 +231,7 @@ public class Sensing : MonoBehaviour
     public GameObject GetObjectInViewByName(string nameToSelect)
     {
         UpdateViewedObjectsList();
-        return _objectsInView.SingleOrDefault(x=>x.name.Equals(nameToSelect));
+        return _objectsInView.FirstOrDefault(x=>x.name.Equals(nameToSelect));
     }
 
     /// <summary>
