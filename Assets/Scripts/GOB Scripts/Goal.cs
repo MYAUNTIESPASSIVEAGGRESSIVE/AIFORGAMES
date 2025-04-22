@@ -57,6 +57,7 @@ public class GoalBase
 
     private float _LowerRange;
     private float _UpperRange;
+    public string _GoalName;
 
     public float _Value;
 
@@ -66,6 +67,7 @@ public class GoalBase
     public GoalBase(float val, SO_Goals GoalSO, CurveFunction GoalCurve)
     {
         GoalIndex = GoalSO.GoalIndex;
+        _GoalName = GoalSO.GoalName;
         _LowerRange = GoalSO.GoalBaseValue;
         _UpperRange = GoalSO.GoalFinalValue;
 

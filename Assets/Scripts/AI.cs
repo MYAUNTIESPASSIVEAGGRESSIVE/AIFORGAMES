@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
 
 /*****************************************************************************************************************************
@@ -180,12 +179,14 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
+        Debug.Log(this.name);
+
         _AI.UpdateGoals(1, GotEnemyFlag());
         _AI.UpdateGoals(4, DistanceBetweenEnemy());
 
         // Run your AI code in here
         ActionBase currentAction = _AI.ChooseAction(this);
-        Debug.Log("Update: currentAction = " + currentAction.ToString());
+        //Debug.Log("Update: currentAction = " + currentAction.ToString());
         currentAction.Execute(Time.deltaTime);
 
         #region Goal Value Checks
@@ -201,7 +202,7 @@ public class AI : MonoBehaviour
     // returns a float when the AI has the flag
     public float GotEnemyFlag()
     {
-        if(_agentData.HasEnemyFlag && 
+        if (_agentData.HasEnemyFlag &&
             _agentInventory.HasItem(_agentData.EnemyFlagName))
         {
             return 100;
@@ -220,11 +221,9 @@ public class AI : MonoBehaviour
     {
         GameObject nearestEnemy = _agentSenses.GetNearestEnemyInView();
 
-        if(nearestEnemy != null)
+        if (nearestEnemy != null)
         {
-            Debug.Log(200 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position)));
-
-            return 200 * (1/Vector3.Distance(transform.position, nearestEnemy.transform.position));
+            return 200 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position));
         }
 
         return 0;
@@ -252,7 +251,7 @@ public class AI : MonoBehaviour
     // if the friendly flag is inside the enemy base return the max value
     public float EBaseHasFriendlyFlag()
     {
-        if(_agentData.FriendlyFlag.transform.position ==
+        if (_agentData.FriendlyFlag.transform.position ==
             _agentData.EnemyBase.transform.position)
         {
             return 1000;

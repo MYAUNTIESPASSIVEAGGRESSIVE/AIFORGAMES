@@ -26,12 +26,13 @@ public class GOB_AI
     // this is done when a goal insistance is change or when an action is complete.
     public void UpdateGoals(int ID, float value)
     {
+
         foreach (GoalBase goal in Goals)
         {
             if (goal.GoalIndex == ID)
             {
                 goal.BaseValue = value;
-                Debug.Log("Updated goal: " + goal.GoalIndex + ", value: " + goal.BaseValue.ToString("F4"));
+                Debug.Log("Updated goal: " + goal._GoalName + ", value: " + goal.BaseValue.ToString("F4"));
             }
         }
     }
@@ -43,6 +44,7 @@ public class GOB_AI
         // checks each goal within the list
         foreach (GoalBase goals in Goals)
         {
+            Debug.Log(goals._GoalName + " , " + goals.FinalValue);
             // gets the goal with highest insistance value
             if(goals.FinalValue > highestGoal.FinalValue)
             {
@@ -61,7 +63,7 @@ public class GOB_AI
                 highestAction = action;
             }
         }
-        Debug.Log(" Best action: " + highestAction.ToString() + ", goal satisfaction: = " + highestAction.EvaluateGoalSatisfaction(highestGoal.GoalIndex).ToString("F4"));
+        //Debug.Log(" Best action: " + highestAction.ToString() + ", goal satisfaction: = " + highestAction.EvaluateGoalSatisfaction(highestGoal.GoalIndex).ToString("F4"));
         return highestAction;
     }
 }

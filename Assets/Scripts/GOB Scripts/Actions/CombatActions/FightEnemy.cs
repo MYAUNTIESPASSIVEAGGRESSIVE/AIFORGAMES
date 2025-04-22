@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FightEnemy : ActionBase
@@ -10,7 +8,7 @@ public class FightEnemy : ActionBase
 
     public override void Execute(float deltaTime)
     {
-        if(Vector3.Distance(_teamMember.transform.position, _teamMember._agentSenses.GetNearestEnemyInView().transform.position) <= 2)
+        if (Vector3.Distance(_teamMember.transform.position, _teamMember._agentSenses.GetNearestEnemyInView().transform.position) <= 3.0f)
         {
             _teamMember._agentActions.MoveTo(_teamMember._agentSenses.GetNearestEnemyInView().transform.position);
 
@@ -20,11 +18,14 @@ public class FightEnemy : ActionBase
 
     public bool Fighting(GameObject Enemy)
     {
-        Debug.Log("Attacking");
-
         _teamMember._agentActions.AttackEnemy(Enemy);
 
-        finished = true;
+        if (!Enemy.gameObject.activeSelf)
+        {
+            finished = true;
+            return finished;
+        }
+
         return finished;
     }
 
