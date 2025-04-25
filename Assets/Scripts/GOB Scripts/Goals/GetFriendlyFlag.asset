@@ -15,4 +15,4 @@ MonoBehaviour:
   GoalIndex: 6
   GoalName: Get Friendly Flag
   GoalBaseValue: 0
-  GoalFinalValue: 0
+  GoalFinalValue: 500

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ProtectFFlagAtBase
   m_EditorClassIdentifier: 
   GoalIndex: 7
-  GoalName: Protect Frinedly Flag At Base
+  GoalName: Protect Friendly Flag At Base
   GoalBaseValue: 0
-  GoalFinalValue: 0
+  GoalFinalValue: 800

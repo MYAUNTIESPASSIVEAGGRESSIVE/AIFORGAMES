@@ -149,7 +149,7 @@ public class AI : MonoBehaviour
         GoalBase GAttackEnemy = new(DistanceBetweenEnemy(), Goals[3], CurveFunctions.Exponential);
         _AI.AddGoal(GAttackEnemy);
 
-        GoalBase GKeepHealth = new(_agentData.CurrentHitPoints, Goals[4], CurveFunctions.Exponential);
+        GoalBase GKeepHealth = new(_agentData.CurrentHitPoints, Goals[4], CurveFunctions.ReverseLinear);
         _AI.AddGoal(GKeepHealth);
 
         #endregion
@@ -193,6 +193,8 @@ public class AI : MonoBehaviour
 
         _AI.UpdateGoals(1, GotEnemyFlag());
         _AI.UpdateGoals(4, DistanceBetweenEnemy());
+
+        _AI.UpdateGoals(5, 10 * _agentData.CurrentHitPoints);
 
         // Run your AI code in here
         ActionBase currentAction = _AI.ChooseAction(this);
@@ -239,7 +241,7 @@ public class AI : MonoBehaviour
         {
             TargetEnemy = nearestEnemy;
 
-            return 1000 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position));
+            return 800 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position));
         }
 
         return 0;

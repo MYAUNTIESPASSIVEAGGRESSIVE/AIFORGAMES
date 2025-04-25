@@ -15,4 +15,4 @@ MonoBehaviour:
   GoalIndex: 8
   GoalName: Keep Enemy Flag At Base
   GoalBaseValue: 0
-  GoalFinalValue: 0
+  GoalFinalValue: 400
