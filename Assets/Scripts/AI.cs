@@ -113,6 +113,9 @@ public class AI : MonoBehaviour
         get { return _AI; }
     }
 
+    [HideInInspector]
+    public GameObject TargetEnemy;
+
     // Use this for initialization and setting up goals and actions
     // they are then added to the main GOB_AI script's lists
     void Awake()
@@ -146,6 +149,9 @@ public class AI : MonoBehaviour
         GoalBase GAttackEnemy = new(DistanceBetweenEnemy(), Goals[3], CurveFunctions.Exponential);
         _AI.AddGoal(GAttackEnemy);
 
+        GoalBase GKeepHealth = new(_agentData.CurrentHitPoints, Goals[4], CurveFunctions.Exponential);
+        _AI.AddGoal(GKeepHealth);
+
         #endregion
 
         #region ActionAdding
@@ -155,23 +161,27 @@ public class AI : MonoBehaviour
 
         // Get Enemy Flag
         GetEnemyFlag getEFlag = new(this);
-        getEFlag.SetGoalSatifiaction(1, 500);
+        getEFlag.SetGoalSatifiaction(1, 100);
         _AI.AddAction(getEFlag);
 
         // Return Enemy Flag
         ReturnEnemyFlag returnEFlag = new(this);
-        returnEFlag.SetGoalSatifiaction(2, 100);
+        returnEFlag.SetGoalSatifiaction(2, 200);
         _AI.AddAction(returnEFlag);
 
         // Protect Flag Holder
         ProtectFlagHolder protectFlagHolder = new(this);
-        protectFlagHolder.SetGoalSatifiaction(3, 150);
+        protectFlagHolder.SetGoalSatifiaction(3, 250);
         _AI.AddAction(protectFlagHolder);
 
         // Attack Enemy
         FightEnemy fightEnemy = new(this);
-        fightEnemy.SetGoalSatifiaction(4, 100);
+        fightEnemy.SetGoalSatifiaction(4, 50);
         _AI.AddAction(fightEnemy);
+
+        MedKitAction medkitActions = new(this);
+        medkitActions.SetGoalSatifiaction(5, 500);
+        _AI.AddAction(medkitActions);
 
         #endregion
     }
@@ -188,14 +198,6 @@ public class AI : MonoBehaviour
         ActionBase currentAction = _AI.ChooseAction(this);
         //Debug.Log("Update: currentAction = " + currentAction.ToString());
         currentAction.Execute(Time.deltaTime);
-
-        #region Goal Value Checks
-        DistanceBetweenEnemy();
-        GotEnemyFlag();
-        TeamMateHasFlag();
-        //EBaseHasFriendlyFlag();
-        //SurvivabilityCalculations();
-        #endregion
     }
 
     #region Goal Value Functions
@@ -205,7 +207,7 @@ public class AI : MonoBehaviour
         if (_agentData.HasEnemyFlag &&
             _agentInventory.HasItem(_agentData.EnemyFlagName))
         {
-            return 100;
+            return 200;
         }
         return 0;
     }
@@ -213,6 +215,18 @@ public class AI : MonoBehaviour
     // returns a float when an AI's teammate has the flag
     public float TeamMateHasFlag()
     {
+        List<GameObject> TeamMates = _agentSenses.GetFriendliesInView();
+
+        foreach(GameObject TeamMember in TeamMates)
+        {
+            if (TeamMember.GetComponentInChildren<InventoryController>().HasItem(_agentData.EnemyFlagName))
+            {
+                return 100;
+            }
+
+            return 0;
+        }
+
         return 0;
     }
 
@@ -223,40 +237,17 @@ public class AI : MonoBehaviour
 
         if (nearestEnemy != null)
         {
-            return 200 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position));
+            TargetEnemy = nearestEnemy;
+
+            return 1000 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position));
         }
 
         return 0;
     }
 
-    // calculates the amount of nearby enemies,
-    // teammates and the health of the AI and returns the danger value as a float
-    /*
-    public float SurvivabilityCalculations()
+    public float FlagFromBaseDistance()
     {
-        int hitpoints = _agentData.CurrentHitPoints;
-        List<GameObject> Friendlies = _agentSenses.GetFriendliesInView();
-        List<GameObject> Enemies = _agentSenses.GetEnemiesInView();
-        bool moreTeamMates;
-
-        if(Friendlies.Count >= Enemies.Count)
-        {
-            moreTeamMates = true;
-        }
-        moreTeamMates = false;
-
-    }
-    */
-
-    // if the friendly flag is inside the enemy base return the max value
-    public float EBaseHasFriendlyFlag()
-    {
-        if (_agentData.FriendlyFlag.transform.position ==
-            _agentData.EnemyBase.transform.position)
-        {
-            return 1000;
-        }
-        return 0;
+        return 50 * Vector3.Distance(_agentData.FriendlyFlag.transform.position, _agentData.FriendlyBase.transform.position);
     }
 
     #endregion

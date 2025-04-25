@@ -21,7 +21,7 @@ public class ReturnEnemyFlag : ActionBase
     {
         _teamMember._agentActions.MoveTo(_teamMember._agentData.FriendlyBase);
 
-        if(Vector3.Distance(_teamMember.transform.position, _teamMember._agentData.FriendlyBase.transform.position) <= 0.02f)
+        if(Vector3.Distance(_teamMember.transform.position, _teamMember._agentData.FriendlyBase.transform.position) <= 1)
         {
             _teamMember._agentActions.DropItem(_teamMember._agentData.EnemyFlag);
 

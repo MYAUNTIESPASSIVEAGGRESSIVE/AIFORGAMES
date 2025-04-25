@@ -8,11 +8,12 @@ public class FightEnemy : ActionBase
 
     public override void Execute(float deltaTime)
     {
-        if (Vector3.Distance(_teamMember.transform.position, _teamMember._agentSenses.GetNearestEnemyInView().transform.position) <= 3.0f)
+        if (Vector3.Distance(_teamMember.transform.position, _teamMember.TargetEnemy.transform.position) <= _teamMember._agentData.ViewRange &&
+            !_teamMember._agentData.HasEnemyFlag)
         {
-            _teamMember._agentActions.MoveTo(_teamMember._agentSenses.GetNearestEnemyInView().transform.position);
+            _teamMember._agentActions.MoveTo(_teamMember.TargetEnemy.transform.position);
 
-            Fighting(_teamMember._agentSenses.GetNearestEnemyInView());
+            Fighting(_teamMember.TargetEnemy);
         }
     }
 
@@ -22,6 +23,8 @@ public class FightEnemy : ActionBase
 
         if (!Enemy.gameObject.activeSelf)
         {
+            _teamMember.Gob_AI.UpdateGoals(4, 0);
+
             finished = true;
             return finished;
         }

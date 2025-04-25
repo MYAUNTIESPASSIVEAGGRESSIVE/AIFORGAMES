@@ -17,7 +17,8 @@ public class GetEnemyFlag : ActionBase
 
     public bool FindFlag()
     {
-        if (Vector3.Distance(_teamMember.transform.position, _teamMember._agentData.EnemyFlag.transform.position) >= 1)
+        if (Vector3.Distance(_teamMember.transform.position, _teamMember._agentData.EnemyFlag.transform.position) >= 1 &&
+            Vector3.Distance(_teamMember._agentData.EnemyFlag.transform.position, _teamMember._agentData.FriendlyBase.transform.position) >= 2)
         {
             _teamMember._agentActions.MoveTo(_teamMember._agentData.EnemyFlag.transform.position);
             return false;
@@ -31,6 +32,7 @@ public class GetEnemyFlag : ActionBase
         _teamMember._agentInventory.AddItem(_teamMember._agentData.EnemyFlag);
 
         _teamMember.Gob_AI.UpdateGoals(1, _teamMember.GotEnemyFlag());
+        _teamMember.Gob_AI.UpdateGoals(2, _teamMember.GotEnemyFlag());
 
         if (_teamMember._agentData.HasEnemyFlag)
         {

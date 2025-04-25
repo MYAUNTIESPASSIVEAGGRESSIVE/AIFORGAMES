@@ -51,7 +51,7 @@ public class GOB_AI
                 highestGoal = goals;
             }
         }
-        Debug.Log("Max goal: " + highestGoal.GoalIndex + ", utility: " + highestGoal.FinalValue.ToString("F4"));
+        Debug.Log("Max goal: " + highestGoal._GoalName + ", utility: " + highestGoal.FinalValue.ToString("F4"));
 
         ActionBase highestAction = Actions[0];
         // checks each action within the list

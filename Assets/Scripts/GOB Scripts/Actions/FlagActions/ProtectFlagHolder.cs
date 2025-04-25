@@ -30,13 +30,16 @@ public class ProtectFlagHolder : ActionBase
 
     private bool ProtectTeamMate(GameObject flagBarer)
     {
-        if(flagBarer.GetComponent<AgentData>().HasEnemyFlag 
-            && flagBarer.transform.position 
-            == _teamMember._agentData.FriendlyBase.transform.position)
+        if(flagBarer.GetComponent<AgentData>().HasEnemyFlag &&
+            Vector3.Distance(flagBarer.transform.position, _teamMember.transform.position) <= 3)
         {
+            _teamMember.Gob_AI.UpdateGoals(2, _teamMember.TeamMateHasFlag());
+
             finished = true;
             return finished;
         }
+
+        _teamMember._agentActions.MoveTo(flagBarer.transform.position);
 
         finished = false;
         return finished;
