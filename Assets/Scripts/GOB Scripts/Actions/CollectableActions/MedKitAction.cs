@@ -9,13 +9,17 @@ public class MedKitAction : ActionBase
 
     public override void Execute(float deltaTime)
     {
-        if (_teamMember._agentInventory.HasItem("Health Kit"))
+        // checks if the AI has the medpack
+        if (_teamMember._agentInventory.HasItem(Names.HealthKit))
         {
             UseMedKit();
         }
+
+        // if not it executes this
         CollectMedKit();
     }
 
+    // checks collectables in view to see which ones are health kits
     private bool CollectMedKit()
     {
         List<GameObject> collectables = _teamMember._agentSenses.GetCollectablesInView();
@@ -26,6 +30,7 @@ public class MedKitAction : ActionBase
         {
             if (_collectable.GetComponent<HealthKit>())
             {
+                // if it is a health kit Go To function is activated + healthkit is passed through
                 HealthKit = _collectable;
                 GoToHealthKit(HealthKit);
                 return finished;
@@ -36,6 +41,7 @@ public class MedKitAction : ActionBase
 
     private void GoToHealthKit(GameObject _healthKit)
     {
+        // moves to the health kit and picks it up
         _teamMember._agentActions.MoveTo(_healthKit.transform.position);
 
         if (Vector3.Distance(_teamMember.transform.position, _healthKit.transform.position) <= 1)
@@ -46,7 +52,8 @@ public class MedKitAction : ActionBase
 
     private bool UseMedKit()
     {
-        _teamMember._agentActions.UseItem(_teamMember._agentInventory.GetItem("Health Kit"));
+        // uses the health kit
+        _teamMember._agentActions.UseItem(_teamMember._agentInventory.GetItem(Names.HealthKit));
 
         finished = true;
         return finished;

@@ -545,10 +545,12 @@ MonoBehaviour:
   _agentActions: {fileID: 0}
   Goals:
   - {fileID: 11400000, guid: e27a25cd55b7737408383be5fdf11338, type: 2}
-  - {fileID: 11400000, guid: 32792b86b00a3f943ba78eacacaef8c1, type: 2}
   - {fileID: 11400000, guid: eafa9998771bb464983ab8371c2d3a01, type: 2}
   - {fileID: 11400000, guid: 22532a3e8dac22847bf0779cf8315f62, type: 2}
   - {fileID: 11400000, guid: 3c8a9eb16fa032b41b46f512656c7941, type: 2}
+  - {fileID: 11400000, guid: 9f3f9aefdf2f06248a9912516c2c4384, type: 2}
+  - {fileID: 11400000, guid: fcbd20c677417b94f85bdc1444b4c7c8, type: 2}
+  - {fileID: 11400000, guid: ea8ded610531f7e43bbd273b4d590417, type: 2}
   TargetEnemy: {fileID: 0}
 --- !u!114 &3567106578717450890
 MonoBehaviour:

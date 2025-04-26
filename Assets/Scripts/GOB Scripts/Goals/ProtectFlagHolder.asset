@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 895d462b9690b764d9cb94443bedcd47, type: 3}
-  m_Name: GetFriendlyFlag
+  m_Name: ProtectFlagHolder
   m_EditorClassIdentifier: 
-  GoalIndex: 6
-  GoalName: Get Friendly Flag
+  GoalIndex: 2
+  GoalName: Protect Flag Holder
   GoalBaseValue: 0
-  GoalFinalValue: 500
+  GoalFinalValue: 150

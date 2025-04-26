@@ -10,15 +10,18 @@ public class FindTeamFlag : ActionBase
 
     public override void Execute(float deltatime)
     {
+        // if the distance between the AI and the Friendly flag is short then collect the flag
         if (Vector3.Distance(_teamMember.transform.position, _teamMember._agentData.FriendlyFlag.transform.position) <= 1)
         {
             CollectAndReturn();
         }
+        // if distance is high then find flag
         else FindFlag();
     }
 
     private bool FindFlag()
     {
+        // if distance between AI and Flag is higher than 1 then the AI moves to the flag
         if (Vector3.Distance(_teamMember.transform.position,
             _teamMember._agentData.FriendlyFlag.transform.position) > 1)
         {
@@ -30,13 +33,16 @@ public class FindTeamFlag : ActionBase
 
     private bool CollectAndReturn()
     {
+        // collects the Flag
         _teamMember._agentActions.CollectItem(_teamMember._agentData.FriendlyFlag);
 
+        // runs back to base
         _teamMember._agentActions.MoveTo(_teamMember._agentData.FriendlyBase);
 
         if(Vector3.Distance(_teamMember.transform.position, 
             _teamMember._agentData.FriendlyBase.transform.position) <= 1)
         {
+            // when inside the base the flag is dropped
             _teamMember._agentActions.DropItem(_teamMember._agentData.FriendlyFlag);
 
             finished = true;

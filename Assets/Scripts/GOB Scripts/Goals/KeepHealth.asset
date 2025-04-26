@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895d462b9690b764d9cb94443bedcd47, type: 3}
   m_Name: KeepHealth
   m_EditorClassIdentifier: 
-  GoalIndex: 5
+  GoalIndex: 4
   GoalName: Keep Health
   GoalBaseValue: 0
   GoalFinalValue: 500
-  GoalCurveFunction: 1

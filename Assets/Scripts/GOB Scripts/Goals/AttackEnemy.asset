@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895d462b9690b764d9cb94443bedcd47, type: 3}
   m_Name: AttackEnemy
   m_EditorClassIdentifier: 
-  GoalIndex: 4
+  GoalIndex: 3
   GoalName: Attack Enemy
   GoalBaseValue: 0
   GoalFinalValue: 50
