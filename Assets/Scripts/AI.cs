@@ -161,10 +161,11 @@ public class AI : MonoBehaviour
         GoalBase GKeepFlagsAtBase = new(FlagDistance(), Goals[5], CurveFunctions.Linear);
         _AI.AddGoal(GKeepFlagsAtBase);
 
+        /*
         // Get a powerup (7)
-        GoalBase GGeetPowerUp = new(_agentData.NormalAttackDamage, Goals[6], CurveFunctions.Linear);
+        GoalBase GGeetPowerUp = new(_agentData.NormalAttackDamage, Goals[6], CurveFunctions.StepAtUpper);
         _AI.AddGoal(GGeetPowerUp);
-
+        */
         #endregion
 
         #region ActionAdding
@@ -204,10 +205,12 @@ public class AI : MonoBehaviour
         findTeamFlag.SetGoalSatifiaction(6, Goals[5].GoalFinalValue);
         _AI.AddAction(findTeamFlag);
 
+        /*
         // Powerup find and use
         PowerUpAction powerUpAction = new(this);
         powerUpAction.SetGoalSatifiaction(7, Goals[6].GoalFinalValue);
         _AI.AddAction(powerUpAction);
+        */
         #endregion
     }
 
@@ -234,7 +237,7 @@ public class AI : MonoBehaviour
     // returns a float when the AI has the flag
     public float GotFlag()
     {
-        if (_agentData.HasEnemyFlag || _agentData.HasFriendlyFlag)
+        if (_agentData.HasEnemyFlag | _agentData.HasFriendlyFlag)
         {
             return 200;
         }
@@ -248,7 +251,7 @@ public class AI : MonoBehaviour
 
         foreach (GameObject TeamMember in TeamMates)
         {
-            if (TeamMember.GetComponentInChildren<InventoryController>().HasItem(_agentData.EnemyFlagName) ||
+            if (TeamMember.GetComponentInChildren<InventoryController>().HasItem(_agentData.EnemyFlagName) |
                 TeamMember.GetComponentInChildren<InventoryController>().HasItem(_agentData.FriendlyFlagName))
             {
                 return 100;

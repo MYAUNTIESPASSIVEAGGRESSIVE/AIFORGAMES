@@ -35,6 +35,7 @@ public class FindTeamFlag : ActionBase
     {
         // collects the Flag
         _teamMember._agentActions.CollectItem(_teamMember._agentData.FriendlyFlag);
+        _teamMember._agentInventory.AddItem(_teamMember._agentData.FriendlyFlag);
 
         // runs back to base
         _teamMember._agentActions.MoveTo(_teamMember._agentData.FriendlyBase);
@@ -44,6 +45,7 @@ public class FindTeamFlag : ActionBase
         {
             // when inside the base the flag is dropped
             _teamMember._agentActions.DropItem(_teamMember._agentData.FriendlyFlag);
+            _teamMember._agentInventory.RemoveItem(_teamMember._agentData.FriendlyFlagName);
 
             finished = true;
             return finished;

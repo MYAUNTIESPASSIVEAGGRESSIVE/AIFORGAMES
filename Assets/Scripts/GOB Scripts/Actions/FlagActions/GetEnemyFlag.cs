@@ -53,7 +53,11 @@ public class GetEnemyFlag : ActionBase
         {
             // if in base then drop the flag
             _teamMember._agentActions.DropItem(_teamMember._agentData.EnemyFlag);
+            _teamMember._agentInventory.RemoveItem(_teamMember._agentData.EnemyFlagName);
+
             Debug.Log("Dropping Flag");
+
+            // updating goals 1 (get flag) and 6 (keep flags at base)
             _teamMember.Gob_AI.UpdateGoals(1, _teamMember.FlagDistance());
             _teamMember.Gob_AI.UpdateGoals(6, _teamMember.FlagDistance());
 

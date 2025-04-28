@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ProtectFlagHolder : ActionBase
@@ -8,26 +9,15 @@ public class ProtectFlagHolder : ActionBase
 
     public override void Execute(float deltatime)
     {
-        // gets the nearest teammate
-        //GameObject NearestTeamMate = _teamMember._agentSenses.GetNearestFriendlyInView();
-        /*
-        // checks if the teammate has a flag or not
-        if (TeamMateNear(NearestTeamMate) != null)
+        List<GameObject> teamMates = _teamMember._agentSenses.GetFriendliesInView();
+    
+        foreach (GameObject teammate in teamMates)
         {
-            // passes in the teammate GO
-            ProtectTeamMate(NearestTeamMate);
+            if(teammate.GetComponent<AgentData>().HasEnemyFlag | teammate.GetComponent<AgentData>().HasFriendlyFlag)
+            {
+                ProtectTeamMate(teammate);
+            }
         }
-        */
-    }
-
-    private GameObject TeamMateNear(GameObject nearTeamMate)
-    {
-        // if the teammate has the enemy flag or friendly flag then returns the game object
-        if (nearTeamMate.GetComponent<AgentData>().HasEnemyFlag || nearTeamMate.GetComponent<AgentData>().HasFriendlyFlag)
-        {
-            return nearTeamMate;
-        }
-        return null;
     }
 
     private bool ProtectTeamMate(GameObject flagBarer)

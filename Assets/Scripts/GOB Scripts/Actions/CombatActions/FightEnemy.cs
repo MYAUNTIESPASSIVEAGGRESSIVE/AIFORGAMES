@@ -11,7 +11,7 @@ public class FightEnemy : ActionBase
         // checks if the target enemy is in range and the AI is not holding a flag
         if ((Vector3.Distance(_teamMember.transform.position, _teamMember.TargetEnemy.transform.position) <=
             _teamMember._agentData.ViewRange) &&
-            !_teamMember._agentData.HasEnemyFlag)
+            (!_teamMember._agentData.HasEnemyFlag | !_teamMember._agentData.HasFriendlyFlag))
         {
             // moves to the target enemy and attacks
             _teamMember._agentActions.MoveTo(_teamMember.TargetEnemy.transform.position);
