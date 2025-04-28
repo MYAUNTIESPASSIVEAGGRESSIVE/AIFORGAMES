@@ -44,14 +44,13 @@ public class GOB_AI
         // checks each goal within the list
         foreach (GoalBase goals in Goals)
         {
-            Debug.Log(goals._GoalName + " , " + goals.FinalValue);
             // gets the goal with highest insistance value
             if(goals.FinalValue > highestGoal.FinalValue)
             {
                 highestGoal = goals;
+                Debug.Log("Max goal: " + highestGoal._GoalName + ", utility: " + highestGoal.FinalValue.ToString("F4"));
             }
         }
-        Debug.Log("Max goal: " + highestGoal._GoalName + ", utility: " + highestGoal.FinalValue.ToString("F4"));
 
         ActionBase highestAction = Actions[0];
         // checks each action within the list

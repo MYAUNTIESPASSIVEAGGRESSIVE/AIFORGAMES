@@ -9,14 +9,15 @@ public class ProtectFlagHolder : ActionBase
     public override void Execute(float deltatime)
     {
         // gets the nearest teammate
-        GameObject NearestTeamMate = _teamMember._agentSenses.GetNearestFriendlyInView();
-
+        //GameObject NearestTeamMate = _teamMember._agentSenses.GetNearestFriendlyInView();
+        /*
         // checks if the teammate has a flag or not
         if (TeamMateNear(NearestTeamMate) != null)
         {
             // passes in the teammate GO
             ProtectTeamMate(NearestTeamMate);
         }
+        */
     }
 
     private GameObject TeamMateNear(GameObject nearTeamMate)

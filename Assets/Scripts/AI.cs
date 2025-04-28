@@ -137,32 +137,32 @@ public class AI : MonoBehaviour
         /// creating a new goal using the Scriptable Object and AgentData. (noted with the letter G)
         /// </summary>
 
-        // Get Enemy Flag
+        // Get Enemy Flag (1)
         GoalBase GEnemyFlag = new(GotFlag(), Goals[0], CurveFunctions.ReverseLinear);
         _AI.AddGoal(GEnemyFlag);
 
-        // Protect Flag Holder
+        // Protect Flag Holder (2)
         GoalBase GProtectFlagHolder = new(TeamMateHasFlag(), Goals[1], CurveFunctions.StepAtUpper);
         _AI.AddGoal(GProtectFlagHolder);
 
-        // Attack Nearby Enemy
+        // Attack Nearby Enemy (3)
         GoalBase GAttackEnemy = new(DistanceBetweenEnemy(), Goals[2], CurveFunctions.Exponential);
         _AI.AddGoal(GAttackEnemy);
 
-        // Keep Health high
-        GoalBase GKeepHealth = new(_agentData.CurrentHitPoints, Goals[3], CurveFunctions.ReverseLinear);
+        // Keep Health high (4)
+        GoalBase GKeepHealth = new(_agentData.CurrentHitPoints, Goals[3], CurveFunctions.Linear);
         _AI.AddGoal(GKeepHealth);
 
-        // Keep the friendly flag at base
-        GoalBase GKeepFriendlyFlag = new(GotFlag() + FlagDistance(), Goals[4], CurveFunctions.ReverseLinear);
+        // Keep the friendly flag at base (5)
+        GoalBase GKeepFriendlyFlag = new(GotFlag() + FlagDistance(), Goals[4], CurveFunctions.Linear);
         _AI.AddGoal(GKeepFriendlyFlag);
 
-        // Keep both flags at base
-        GoalBase GKeepFlagsAtBase = new(FlagDistance(), Goals[5], CurveFunctions.ReverseLinear);
+        // Keep both flags at base (6)
+        GoalBase GKeepFlagsAtBase = new(FlagDistance(), Goals[5], CurveFunctions.Linear);
         _AI.AddGoal(GKeepFlagsAtBase);
 
-        // Get a powerup
-        GoalBase GGeetPowerUp = new(_agentData.NormalAttackDamage, Goals[6], CurveFunctions.ReverseLinear);
+        // Get a powerup (7)
+        GoalBase GGeetPowerUp = new(_agentData.NormalAttackDamage, Goals[6], CurveFunctions.Linear);
         _AI.AddGoal(GGeetPowerUp);
 
         #endregion
@@ -174,39 +174,39 @@ public class AI : MonoBehaviour
 
         // Get Enemy Flag + Return it
         GetEnemyFlag getEFlag = new(this);
-        getEFlag.SetGoalSatifiaction(1, 100);
+        getEFlag.SetGoalSatifiaction(1, Goals[0].GoalFinalValue);
         _AI.AddAction(getEFlag);
 
         // Protect Flag Holder
         ProtectFlagHolder protectFlagHolder = new(this);
-        protectFlagHolder.SetGoalSatifiaction(2, 250);
+        protectFlagHolder.SetGoalSatifiaction(2, Goals[1].GoalFinalValue);
         _AI.AddAction(protectFlagHolder);
 
         // Attack Enemy
         FightEnemy fightEnemy = new(this);
-        fightEnemy.SetGoalSatifiaction(3, 50);
+        fightEnemy.SetGoalSatifiaction(3, Goals[2].GoalFinalValue);
         _AI.AddAction(fightEnemy);
 
         // Medkit find and use
         MedKitAction medkitActions = new(this);
-        medkitActions.SetGoalSatifiaction(4, 500);
+        medkitActions.SetGoalSatifiaction(4, Goals[3].GoalFinalValue);
         _AI.AddAction(medkitActions);
 
         // Protect flags at base.
         ProtectFlagAtBase protectFlagAtBase = new(this);
-        protectFlagAtBase.SetGoalSatifiaction(5, 500);
-        protectFlagAtBase.SetGoalSatifiaction(6, 500);
+        protectFlagAtBase.SetGoalSatifiaction(5, Goals[4].GoalFinalValue);
+        protectFlagAtBase.SetGoalSatifiaction(6, Goals[5].GoalFinalValue);
         _AI.AddAction(protectFlagAtBase);
 
         // Find and return friendly flag
         FindTeamFlag findTeamFlag = new(this);
-        findTeamFlag.SetGoalSatifiaction(5, 500);
-        findTeamFlag.SetGoalSatifiaction(6, 500);
+        findTeamFlag.SetGoalSatifiaction(5, Goals[4].GoalFinalValue);
+        findTeamFlag.SetGoalSatifiaction(6, Goals[5].GoalFinalValue);
         _AI.AddAction(findTeamFlag);
 
         // Powerup find and use
         PowerUpAction powerUpAction = new(this);
-        powerUpAction.SetGoalSatifiaction(7, 500);
+        powerUpAction.SetGoalSatifiaction(7, Goals[6].GoalFinalValue);
         _AI.AddAction(powerUpAction);
         #endregion
     }
@@ -219,13 +219,9 @@ public class AI : MonoBehaviour
         #region Goal Updating
         _AI.UpdateGoals(1, GotFlag());
 
-        _AI.UpdateGoals(4, DistanceBetweenEnemy());
+        _AI.UpdateGoals(3, DistanceBetweenEnemy());
 
-        _AI.UpdateGoals(5, 10 * _agentData.CurrentHitPoints);
-
-        _AI.UpdateGoals(6, FlagDistance());
-
-        _AI.UpdateGoals(7, FlagDistance());
+        _AI.UpdateGoals(4, HealthCalculation());
         #endregion
 
         // Run your AI code in here
@@ -296,7 +292,21 @@ public class AI : MonoBehaviour
         {
             TargetEnemy = nearestEnemy;
 
-            return 800 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position));
+            if(800 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position)) >= 100)
+            {
+                return 100;
+            }
+        }
+
+        return 0;
+    }
+
+    // calculates health value for goal if above 0
+    public float HealthCalculation()
+    {
+        if(_agentData.CurrentHitPoints > 0)
+        {
+            return 1/_agentData.CurrentHitPoints;
         }
 
         return 0;

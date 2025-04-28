@@ -15,4 +15,4 @@ MonoBehaviour:
   GoalIndex: 6
   GoalName: Protect Flags At Base
   GoalBaseValue: 0
-  GoalFinalValue: 800
+  GoalFinalValue: 400
