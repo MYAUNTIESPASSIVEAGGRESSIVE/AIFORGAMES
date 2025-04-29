@@ -295,10 +295,14 @@ public class AI : MonoBehaviour
         {
             TargetEnemy = nearestEnemy;
 
-            if(800 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position)) >= 100)
+            float range = 800 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position));
+
+            if (range >= 100)
             {
-                return 100;
+                return 800;
             }
+
+            return range;
         }
 
         return 0;
