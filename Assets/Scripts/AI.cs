@@ -146,19 +146,19 @@ public class AI : MonoBehaviour
         _AI.AddGoal(GProtectFlagHolder);
 
         // Attack Nearby Enemy (3)
-        GoalBase GAttackEnemy = new(DistanceBetweenEnemy(), Goals[2], CurveFunctions.Exponential);
+        GoalBase GAttackEnemy = new(DistanceBetweenEnemy(), Goals[2], CurveFunctions.Linear);
         _AI.AddGoal(GAttackEnemy);
 
         // Keep Health high (4)
-        GoalBase GKeepHealth = new(_agentData.CurrentHitPoints, Goals[3], CurveFunctions.Linear);
+        GoalBase GKeepHealth = new(_agentData.CurrentHitPoints, Goals[3], CurveFunctions.Exponential);
         _AI.AddGoal(GKeepHealth);
 
         // Keep the friendly flag at base (5)
-        GoalBase GKeepFriendlyFlag = new(GotFlag() + FlagDistance(), Goals[4], CurveFunctions.Linear);
+        GoalBase GKeepFriendlyFlag = new(FriendlyFlagDistance(), Goals[4], CurveFunctions.Linear);
         _AI.AddGoal(GKeepFriendlyFlag);
 
         // Keep both flags at base (6)
-        GoalBase GKeepFlagsAtBase = new(FlagDistance(), Goals[5], CurveFunctions.Linear);
+        GoalBase GKeepFlagsAtBase = new(BothFlagDistance(), Goals[5], CurveFunctions.StepAtUpper);
         _AI.AddGoal(GKeepFlagsAtBase);
 
         /*
@@ -265,22 +265,17 @@ public class AI : MonoBehaviour
 
     // returns a float when either friendly flag is outside the base
     // or both flags are inside the base
-    public float FlagDistance()
+    public float FriendlyFlagDistance()
     {
-        if (Vector3.Distance(_agentData.FriendlyFlag.transform.position, _agentData.FriendlyBase.transform.position) > 2)
-        {
-            return 200;
-        }
+        return 1 / Vector3.Distance(_agentData.FriendlyFlag.transform.position, _agentData.FriendlyBase.transform.position);
+    }
 
-        if(Vector3.Distance(_agentData.EnemyFlag.transform.position, _agentData.FriendlyBase.transform.position) <= 2)
+    public float BothFlagDistance()
+    {
+        if(Vector3.Distance(_agentData.FriendlyFlag.transform.position, _agentData.FriendlyBase.transform.position) <= 5 &&
+            Vector3.Distance(_agentData.EnemyFlag.transform.position, _agentData.FriendlyBase.transform.position) <= 5)
         {
-            return 200;
-        }
-
-        if (Vector3.Distance(_agentData.FriendlyFlag.transform.position, _agentData.FriendlyBase.transform.position) <= 2 &&
-            Vector3.Distance(_agentData.EnemyFlag.transform.position, _agentData.FriendlyBase.transform.position) <= 2)
-        {
-            return 800;
+            return 500;
         }
 
         return 0;
@@ -295,12 +290,7 @@ public class AI : MonoBehaviour
         {
             TargetEnemy = nearestEnemy;
 
-            float range = 800 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position));
-
-            if (range >= 100)
-            {
-                return 800;
-            }
+            float range = 50 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position));
 
             return range;
         }

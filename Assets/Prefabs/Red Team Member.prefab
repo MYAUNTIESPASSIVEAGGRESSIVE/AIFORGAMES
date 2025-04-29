@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 114244726350463480}
   - component: {fileID: 3567106578717450890}
   - component: {fileID: 3215751405895708155}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Red Team Member
   m_TagString: Red Team
   m_Icon: {fileID: 0}
@@ -1229,7 +1229,7 @@ MonoBehaviour:
   _agentData: {fileID: 114707554067482440}
   VisibleToAiMask:
     serializedVersion: 2
-    m_Bits: 201
+    m_Bits: 256
   WallsLayer:
     serializedVersion: 2
     m_Bits: 1

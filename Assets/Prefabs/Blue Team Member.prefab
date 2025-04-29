@@ -563,7 +563,7 @@ GameObject:
   - component: {fileID: 114475680222163902}
   - component: {fileID: 4848479103652651519}
   - component: {fileID: 4373626588367927738}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Blue Team Member
   m_TagString: Blue Team
   m_Icon: {fileID: 0}
@@ -905,7 +905,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4042754923835294}
   - component: {fileID: 114081513020617074}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Senses
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -942,7 +942,7 @@ MonoBehaviour:
   _agentData: {fileID: 114215944233940084}
   VisibleToAiMask:
     serializedVersion: 2
-    m_Bits: 201
+    m_Bits: 256
   WallsLayer:
     serializedVersion: 2
     m_Bits: 1

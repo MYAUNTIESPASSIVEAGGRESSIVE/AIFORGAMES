@@ -15,4 +15,4 @@ MonoBehaviour:
   GoalIndex: 2
   GoalName: Protect Flag Holder
   GoalBaseValue: 0
-  GoalFinalValue: 50
+  GoalFinalValue: 80

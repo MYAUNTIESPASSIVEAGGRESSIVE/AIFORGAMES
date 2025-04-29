@@ -47,6 +47,10 @@ public class FindTeamFlag : ActionBase
             _teamMember._agentActions.DropItem(_teamMember._agentData.FriendlyFlag);
             _teamMember._agentInventory.RemoveItem(_teamMember._agentData.FriendlyFlagName);
 
+            // updating goals 1 (get flag) and 6 (keep flags at base)
+            _teamMember.Gob_AI.UpdateGoals(5, _teamMember.FriendlyFlagDistance());
+            _teamMember.Gob_AI.UpdateGoals(6, _teamMember.BothFlagDistance());
+
             finished = true;
             return finished;
         }

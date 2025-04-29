@@ -19,7 +19,7 @@ public class GetEnemyFlag : ActionBase
     {
         // if the flag is out of range of the AI and is not inside the base then they go to the flag
         if (Vector3.Distance(_teamMember.transform.position, _teamMember._agentData.EnemyFlag.transform.position) >= 1 &&
-            Vector3.Distance(_teamMember._agentData.EnemyFlag.transform.position, _teamMember._agentData.FriendlyBase.transform.position) >= 2)
+            Vector3.Distance(_teamMember._agentData.EnemyFlag.transform.position, _teamMember._agentData.FriendlyBase.transform.position) >= 6)
         {
             _teamMember._agentActions.MoveTo(_teamMember._agentData.EnemyFlag.transform.position);
             return false;
@@ -49,17 +49,15 @@ public class GetEnemyFlag : ActionBase
         // move to the friendly base
         _teamMember._agentActions.MoveTo(_teamMember._agentData.FriendlyBase);
 
-        if (Vector3.Distance(_teamMember.transform.position, _teamMember._agentData.FriendlyBase.transform.position) <= 3)
+        if (Vector3.Distance(_teamMember.transform.position, _teamMember._agentData.FriendlyBase.transform.position) <= 5)
         {
             // if in base then drop the flag
             _teamMember._agentActions.DropItem(_teamMember._agentData.EnemyFlag);
             _teamMember._agentInventory.RemoveItem(_teamMember._agentData.EnemyFlagName);
 
-            Debug.Log("Dropping Flag");
-
             // updating goals 1 (get flag) and 6 (keep flags at base)
-            _teamMember.Gob_AI.UpdateGoals(1, _teamMember.FlagDistance());
-            _teamMember.Gob_AI.UpdateGoals(6, _teamMember.FlagDistance());
+            _teamMember.Gob_AI.UpdateGoals(1, _teamMember.GotFlag());
+            _teamMember.Gob_AI.UpdateGoals(6, _teamMember.BothFlagDistance());
 
             finished = true;
             return finished;

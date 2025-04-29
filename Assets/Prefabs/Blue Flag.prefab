@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 65438438863712728}
   - component: {fileID: 54867702428099458}
   - component: {fileID: 114124177036185738}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Blue Flag
   m_TagString: Flag
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 33771910054534910}
   - component: {fileID: 23948760559383996}
   - component: {fileID: 136395443421238558}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 33113026678568674}
   - component: {fileID: 23533156893523960}
   - component: {fileID: 65587588330697146}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Flag
   m_TagString: Untagged
   m_Icon: {fileID: 0}

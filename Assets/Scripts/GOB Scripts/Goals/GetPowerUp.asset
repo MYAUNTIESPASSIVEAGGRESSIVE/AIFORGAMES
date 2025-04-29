@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GoalIndex: 7
   GoalName: Get Power Up
-  GoalBaseValue: 500
+  GoalBaseValue: 0
   GoalFinalValue: 600
