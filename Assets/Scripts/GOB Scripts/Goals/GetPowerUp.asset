@@ -15,4 +15,4 @@ MonoBehaviour:
   GoalIndex: 7
   GoalName: Get Power Up
   GoalBaseValue: 0
-  GoalFinalValue: 600
+  GoalFinalValue: 700

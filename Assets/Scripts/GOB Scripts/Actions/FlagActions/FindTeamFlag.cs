@@ -13,7 +13,7 @@ public class FindTeamFlag : ActionBase
         // if the distance between the AI and the Friendly flag is short then collect the flag
         if (Vector3.Distance(_teamMember.transform.position, _teamMember._agentData.FriendlyFlag.transform.position) <= 1)
         {
-            CollectAndReturn();
+            CollectFlag();
         }
         // if distance is high then find flag
         else FindFlag();
@@ -21,35 +21,56 @@ public class FindTeamFlag : ActionBase
 
     private bool FindFlag()
     {
-        // if distance between AI and Flag is higher than 1 then the AI moves to the flag
-        if (Vector3.Distance(_teamMember.transform.position,
-            _teamMember._agentData.FriendlyFlag.transform.position) > 1)
+        Vector3 range = _teamMember._agentData.FriendlyFlag.transform.position - _teamMember.transform.position;
+        float distance = range.sqrMagnitude;
+
+        if (distance < 2)
         {
-            _teamMember._agentActions.MoveTo(_teamMember._agentData.FriendlyFlag.transform.position);
-            return finished;
+            return true;
         }
-        return finished;
+
+        if (_teamMember._agentData.HasFriendlyFlag)
+        {
+            return true;
+        }
+
+        _teamMember._agentActions.MoveTo(_teamMember._agentData.FriendlyFlag.transform.position);
+
+        return false;
     }
 
-    private bool CollectAndReturn()
+    private bool CollectFlag()
     {
-        // collects the Flag
+        // when in range of the flag they collect it.
         _teamMember._agentActions.CollectItem(_teamMember._agentData.FriendlyFlag);
         _teamMember._agentInventory.AddItem(_teamMember._agentData.FriendlyFlag);
 
-        // runs back to base
-        _teamMember._agentActions.MoveTo(_teamMember._agentData.FriendlyBase);
+        // updates appropriate goals
+        _teamMember.Gob_AI.UpdateGoals(1, _teamMember.GotFlag());
 
-        if(Vector3.Distance(_teamMember.transform.position, 
-            _teamMember._agentData.FriendlyBase.transform.position) <= 1)
+        if (_teamMember._agentData.HasFriendlyFlag)
         {
-            // when inside the base the flag is dropped
+            ReturnFlag();
+        }
+
+        return finished;
+    }
+
+    private bool ReturnFlag()
+    {
+        Vector3 range = _teamMember._agentData.FriendlyBase.transform.position - _teamMember.transform.position;
+        float distance = range.sqrMagnitude;
+
+        if (distance < 5)
+        {
+            // if in base then drop the flag
             _teamMember._agentActions.DropItem(_teamMember._agentData.FriendlyFlag);
             _teamMember._agentInventory.RemoveItem(_teamMember._agentData.FriendlyFlagName);
 
             // updating goals 1 (get flag) and 6 (keep flags at base)
-            _teamMember.Gob_AI.UpdateGoals(5, _teamMember.FriendlyFlagDistance());
+            _teamMember.Gob_AI.UpdateGoals(1, _teamMember.GotFlag());
             _teamMember.Gob_AI.UpdateGoals(6, _teamMember.BothFlagDistance());
+            _teamMember.Gob_AI.UpdateGoals(5, _teamMember.FriendlyFlagDistance());
 
             finished = true;
             return finished;

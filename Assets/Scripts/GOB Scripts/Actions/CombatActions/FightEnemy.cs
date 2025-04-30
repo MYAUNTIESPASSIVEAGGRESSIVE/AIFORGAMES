@@ -27,7 +27,8 @@ public class FightEnemy : ActionBase
         // if the enemy is dead/null then the goal updates and is finished
         if (Enemy == null)
         {
-            _teamMember.Gob_AI.UpdateGoals(4, 0);
+            _teamMember.Gob_AI.UpdateGoals(3, 0);
+            _teamMember.Gob_AI.UpdateGoals(4, _teamMember.HealthCalculation());
 
             finished = true;
             return finished;

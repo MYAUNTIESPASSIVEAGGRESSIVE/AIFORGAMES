@@ -15,4 +15,4 @@ MonoBehaviour:
   GoalIndex: 1
   GoalName: Capture Enemy Flag
   GoalBaseValue: 0
-  GoalFinalValue: 50
+  GoalFinalValue: 300

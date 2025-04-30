@@ -28,9 +28,8 @@ public class MedKitAction : ActionBase
 
         foreach (GameObject _collectable in collectables)
         {
-            if (_collectable.GetComponent<HealthKit>())
+            if(_teamMember._agentSenses.GetNearestCollectableInView() == _collectable.GetComponent<HealthKit>())
             {
-                // if it is a health kit Go To function is activated + healthkit is passed through
                 HealthKit = _collectable;
                 GoToHealthKit(HealthKit);
                 return finished;
@@ -54,6 +53,8 @@ public class MedKitAction : ActionBase
     {
         // uses the health kit
         _teamMember._agentActions.UseItem(_teamMember._agentInventory.GetItem(Names.HealthKit));
+
+        _teamMember.Gob_AI.UpdateGoals(4, _teamMember.HealthCalculation());
 
         finished = true;
         return finished;

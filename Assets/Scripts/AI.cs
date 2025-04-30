@@ -150,7 +150,7 @@ public class AI : MonoBehaviour
         _AI.AddGoal(GAttackEnemy);
 
         // Keep Health high (4)
-        GoalBase GKeepHealth = new(_agentData.CurrentHitPoints, Goals[3], CurveFunctions.Exponential);
+        GoalBase GKeepHealth = new(HealthCalculation(), Goals[3], CurveFunctions.Exponential);
         _AI.AddGoal(GKeepHealth);
 
         // Keep the friendly flag at base (5)
@@ -196,12 +196,10 @@ public class AI : MonoBehaviour
         // Protect flags at base.
         ProtectFlagAtBase protectFlagAtBase = new(this);
         protectFlagAtBase.SetGoalSatifiaction(5, Goals[4].GoalFinalValue);
-        protectFlagAtBase.SetGoalSatifiaction(6, Goals[5].GoalFinalValue);
         _AI.AddAction(protectFlagAtBase);
 
         // Find and return friendly flag
         FindTeamFlag findTeamFlag = new(this);
-        findTeamFlag.SetGoalSatifiaction(5, Goals[4].GoalFinalValue);
         findTeamFlag.SetGoalSatifiaction(6, Goals[5].GoalFinalValue);
         _AI.AddAction(findTeamFlag);
 
@@ -220,16 +218,24 @@ public class AI : MonoBehaviour
         Debug.Log(this.name);
 
         #region Goal Updating
+        // get enemy flag
         _AI.UpdateGoals(1, GotFlag());
 
+        // protect flag holder
+        _AI.UpdateGoals(2, TeamMateHasFlag());
+
+        // attack enemy
         _AI.UpdateGoals(3, DistanceBetweenEnemy());
 
+        // Health calculations
         _AI.UpdateGoals(4, HealthCalculation());
+
+        // Friendly Flag check
+        _AI.UpdateGoals(5, FriendlyFlagDistance());
         #endregion
 
         // Run your AI code in here
         ActionBase currentAction = _AI.ChooseAction(this);
-        //Debug.Log("Update: currentAction = " + currentAction.ToString());
         currentAction.Execute(Time.deltaTime);
     }
 
@@ -237,7 +243,7 @@ public class AI : MonoBehaviour
     // returns a float when the AI has the flag
     public float GotFlag()
     {
-        if (_agentData.HasEnemyFlag | _agentData.HasFriendlyFlag)
+        if (_agentData.HasEnemyFlag || _agentData.HasFriendlyFlag)
         {
             return 200;
         }
@@ -251,10 +257,10 @@ public class AI : MonoBehaviour
 
         foreach (GameObject TeamMember in TeamMates)
         {
-            if (TeamMember.GetComponentInChildren<InventoryController>().HasItem(_agentData.EnemyFlagName) |
+            if (TeamMember.GetComponentInChildren<InventoryController>().HasItem(_agentData.EnemyFlagName) ||
                 TeamMember.GetComponentInChildren<InventoryController>().HasItem(_agentData.FriendlyFlagName))
             {
-                return 100;
+                return 1000;
             }
 
             return 0;
@@ -267,15 +273,23 @@ public class AI : MonoBehaviour
     // or both flags are inside the base
     public float FriendlyFlagDistance()
     {
-        return 1 / Vector3.Distance(_agentData.FriendlyFlag.transform.position, _agentData.FriendlyBase.transform.position);
+        Vector3 Friendlyrange = _agentData.FriendlyBase.transform.position - _agentData.FriendlyFlag.transform.position;
+        float Friendlydistance = Friendlyrange.sqrMagnitude;
+
+        return 1/ Friendlydistance * 300;
     }
 
     public float BothFlagDistance()
     {
-        if(Vector3.Distance(_agentData.FriendlyFlag.transform.position, _agentData.FriendlyBase.transform.position) <= 5 &&
-            Vector3.Distance(_agentData.EnemyFlag.transform.position, _agentData.FriendlyBase.transform.position) <= 5)
+        Vector3 Friendlyrange = _agentData.FriendlyBase.transform.position - _agentData.FriendlyFlag.transform.position;
+        float Friendlydistance = Friendlyrange.sqrMagnitude;
+
+        Vector3 Enemyrange = _agentData.FriendlyBase.transform.position - _agentData.EnemyFlag.transform.position;
+        float Enemydistance = Enemyrange.sqrMagnitude;
+
+        if (Enemydistance <= 5 && Friendlydistance <= 5)
         {
-            return 500;
+            return 1000;
         }
 
         return 0;
@@ -290,7 +304,7 @@ public class AI : MonoBehaviour
         {
             TargetEnemy = nearestEnemy;
 
-            float range = 50 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position));
+            float range = 600 * (1 / Vector3.Distance(transform.position, nearestEnemy.transform.position));
 
             return range;
         }
@@ -301,9 +315,9 @@ public class AI : MonoBehaviour
     // calculates health value for goal if above 0
     public float HealthCalculation()
     {
-        if(_agentData.CurrentHitPoints > 0)
+        if(_agentData.CurrentHitPoints > 0.1f)
         {
-            return 1/_agentData.CurrentHitPoints;
+            return 1/(_agentData.CurrentHitPoints * 300);
         }
 
         return 0;

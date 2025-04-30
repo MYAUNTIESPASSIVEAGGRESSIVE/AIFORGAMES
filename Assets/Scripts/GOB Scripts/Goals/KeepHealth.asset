@@ -15,4 +15,4 @@ MonoBehaviour:
   GoalIndex: 4
   GoalName: Keep Health
   GoalBaseValue: 0
-  GoalFinalValue: 75
+  GoalFinalValue: 100

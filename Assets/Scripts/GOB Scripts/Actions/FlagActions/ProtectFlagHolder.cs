@@ -22,11 +22,14 @@ public class ProtectFlagHolder : ActionBase
 
     private bool ProtectTeamMate(GameObject flagBarer)
     {
+        Vector3 range = flagBarer.transform.position - _teamMember.transform.position;
+        float distance = range.sqrMagnitude;
+
         // checks the distance is shorter than 3 between AI and flag barer
-        if (Vector3.Distance(flagBarer.transform.position, _teamMember.transform.position) <= 3)
+        if (distance <= 10)
         {
             // updates the goal with the distance value x10
-            _teamMember.Gob_AI.UpdateGoals(2, 10 * Vector3.Distance(flagBarer.transform.position, _teamMember.transform.position));
+            _teamMember.Gob_AI.UpdateGoals(2, 10 * distance);
 
             finished = true;
             return finished;

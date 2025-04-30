@@ -32,7 +32,8 @@ public class GOB_AI
             if (goal.GoalIndex == ID)
             {
                 goal.BaseValue = value;
-                Debug.Log("Updated goal: " + goal._GoalName + ", value: " + goal.BaseValue.ToString("F4"));
+
+                Debug.Log("Updated goal: " + goal._GoalName + ", value: " + value);
             }
         }
     }
